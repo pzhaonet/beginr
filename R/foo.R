@@ -4,9 +4,9 @@
 #' @return a bib file
 #' @export
 #' @examples
-#' mf_bib()
-#' mf_bib(pkg = c('base', 'knitr'))
-mf_bib <- function(pkg = c('base'), bibfile = 'packages.bib'){
+#' bib()
+#' bib(pkg = c('base', 'knitr'))
+bib <- function(pkg = c('base'), bibfile = 'packages.bib'){
   pkg <- unique(pkg[order(pkg)])
   for (i in pkg){
     # if (class(try(citation(i))) == 'try-error') install.packages(i)
@@ -29,43 +29,43 @@ mf_bib <- function(pkg = c('base'), bibfile = 'packages.bib'){
 #' @param xlab character
 #' @param ylab character
 #' @param myaxes logical, whether to display axes automatically
-#' @param xlim
-#' @param ylim
+#' @param xlim numeric
+#' @param ylim numeric
 #' @param mycol colours
-#' @param mytype
-#' @param mypch
-#' @param mycex
-#' @param mylty
-#' @param lwd
+#' @param mytype character
+#' @param mypch numeric or character
+#' @param mycex numeric
+#' @param mylty numeric
+#' @param lwd numeric
 #' @param xerror errorbar, same dimension of x
 #' @param yerror same dimension of y
 #' @param mycolerrorbar error bar colours
-#' @param mylegend
-#' @param mylegendcol
+#' @param mylegend character
+#' @param mylegendcol colors
 #' @param myledendcex numeric
 #' @param legendpos character
 #' @return a figure
 #' @export
 #' @examples
 #'
-mf_dfplot <- function(x, y,
-                      add = FALSE,
-                      xlab = '', ylab = '',
-                      myaxes = FALSE,
-                      xlim = NULL, ylim = NULL,
-                      mycol = NULL,
-                      mytype = 'l',
-                      mypch = 20,
-                      mycex = 1,
-                      mylty = NULL,
-                      lwd = 1,
-                      xerror = NULL,
-                      yerror = NULL,
-                      mycolerrorbar = NULL,
-                      mylegend = NULL,
-                      mylegendcol = mycol,
-                      mylegendcex = 1,
-                      legendpos = 'top') {
+dfplot <- function(x, y,
+                   add = FALSE,
+                   xlab = '', ylab = '',
+                   myaxes = FALSE,
+                   xlim = NULL, ylim = NULL,
+                   mycol = NULL,
+                   mytype = 'l',
+                   mypch = 20,
+                   mycex = 1,
+                   mylty = NULL,
+                   lwd = 1,
+                   xerror = NULL,
+                   yerror = NULL,
+                   mycolerrorbar = NULL,
+                   mylegend = NULL,
+                   mylegendcol = mycol,
+                   mylegendcex = 1,
+                   legendpos = 'top') {
   y <- as.data.frame(y)
   if (is.null(ylim)) ylim <- range(y, na.rm = TRUE)
   if (add == FALSE) {
@@ -121,15 +121,15 @@ mf_dfplot <- function(x, y,
 #' @export
 #' @examples
 #'
-mf_dfplot2 <- function(x, y,
-                       xlab = 'x', ylab = 'y',
-                       xlim = NULL, ylim = NULL,
-                       mycol = NULL,
-                       mylty = NULL,
-                       xerror = NULL,
-                       yerror = NULL,
-                       mycolerrorbar = NULL,
-                       mylegend = NULL) {
+dfplot2 <- function(x, y,
+                    xlab = 'x', ylab = 'y',
+                    xlim = NULL, ylim = NULL,
+                    mycol = NULL,
+                    mylty = NULL,
+                    xerror = NULL,
+                    yerror = NULL,
+                    mycolerrorbar = NULL,
+                    mylegend = NULL) {
   par(las=1)
   x <- as.data.frame(x)
   plot(x[, 1], y,
@@ -179,7 +179,7 @@ mf_dfplot2 <- function(x, y,
 #' @export
 #' @examples
 #'
-mf_errorbar <- function(x, y, xupper = NULL, xlower = NULL, yupper = NULL, ylower = NULL, col = 'black', lty = 1)
+errorbar <- function(x, y, xupper = NULL, xlower = NULL, yupper = NULL, ylower = NULL, col = 'black', lty = 1)
 {
   if (!is.null(yupper)){
     arrows(x, y, x, y + yupper, angle = 90, length = 0.03, col = col, lty = lty)
@@ -214,10 +214,10 @@ mf_errorbar <- function(x, y, xupper = NULL, xlower = NULL, yupper = NULL, ylowe
 #' @export
 #' @examples
 #'
-mf_hist <- function(data, mybreaks = "Sturges", myxlim = NULL, myylim = NULL,
-                    eightlines = TRUE, eightdigit = 0, eightcex = 0.8, eightcolors = c('red','darkgreen','blue', 'black', 'purple', 'gold')[c(1,2,3,2,1,6,6,5,4,5)],
-                    mylegend = '', myxlab = '',
-                    show_n = TRUE, show_skewness = TRUE, show_density = FALSE) {
+plothist <- function(data, mybreaks = "Sturges", myxlim = NULL, myylim = NULL,
+                     eightlines = TRUE, eightdigit = 0, eightcex = 0.8, eightcolors = c('red','darkgreen','blue', 'black', 'purple', 'gold')[c(1,2,3,2,1,6,6,5,4,5)],
+                     mylegend = '', myxlab = '',
+                     show_n = TRUE, show_skewness = TRUE, show_density = FALSE) {
   if (is.null(myylim)) myylim <- c(0, max(hist(data, breaks = mybreaks, plot = FALSE)$density) * 1.1)
   if (is.null(myxlim)) {
     hist(data, col = 'grey', border = NA, main = '', freq = FALSE, breaks = mybreaks, xlab = myxlab, ylim = myylim)#, axes = FALSE, breaks = mybreaks)
@@ -257,7 +257,7 @@ mf_hist <- function(data, mybreaks = "Sturges", myxlim = NULL, myylim = NULL,
 #' @export
 #' @examples
 #'
-mf_list2ascii <- function(x, file = paste(deparse(substitute(x)), ".txt", sep = ""))
+list2ascii <- function(x, file = paste(deparse(substitute(x)), ".txt", sep = ""))
 {
   # MHP July 7, 2004
   # R or S function to write an R list to an ASCII file.
@@ -290,12 +290,12 @@ mf_list2ascii <- function(x, file = paste(deparse(substitute(x)), ".txt", sep = 
 #' @export
 #' @examples
 #'
-mf_lm <- function(x, y,
-                  xlim = range(as.numeric(x), na.rm = TRUE), ylim = range(as.numeric(y), na.rm = TRUE),
-                  plot.title="linear regression", xlab = 'x', ylab = 'y',
-                  refline = FALSE, slope = 1, intercept = 0,
-                  showr2 = TRUE,
-                  showleg = TRUE){
+plotlm <- function(x, y,
+                   xlim = range(as.numeric(x), na.rm = TRUE), ylim = range(as.numeric(y), na.rm = TRUE),
+                   plot.title="linear regression", xlab = 'x', ylab = 'y',
+                   refline = FALSE, slope = 1, intercept = 0,
+                   showr2 = TRUE,
+                   showleg = TRUE){
   x <- as.numeric(x)
   y <- as.numeric(y)
   plot(x, y, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, col = "grey", pch = 19)
@@ -332,7 +332,7 @@ mf_lm <- function(x, y,
 #' @export
 #' @examples
 #'
-mf_lmdf <- function(data, simply = FALSE, intercept = TRUE){
+lmdf <- function(data, simply = FALSE, intercept = TRUE){
   ncol <- ncol(data)
   output <- data.frame()
   k <- 1
@@ -367,7 +367,7 @@ mf_lmdf <- function(data, simply = FALSE, intercept = TRUE){
 #' @export
 #' @examples
 #'
-mf_names <- function(data) {
+name <- function(data) {
   #   print(paste(names(data), collapse = "','"))
   #   print(matrix(names(data), nrow = 1))
   y <- as.data.frame(matrix(names(data), nrow = 1))
@@ -376,8 +376,6 @@ mf_names <- function(data) {
        paste("'", paste(names(data), collapse = "','"), "'", sep = ''),
        y)
 }
-
-
 
 #' plot pair-wise correlations. in: a dataframe. out: a figure.
 #' @param data a dataframe
@@ -392,7 +390,7 @@ mf_names <- function(data) {
 #' @export
 #' @examples
 #'
-mf_pairs <- function(data, lower.panel = c(panel.lm, panel.smooth)[[1]], upper.panel=panel.cor, diag.panel  =  panel.diag, lwd = 2, col = "grey", labels=names(data), cex.labels=4){
+plotpairs <- function(data, lower.panel = c(panel.lm, panel.smooth)[[1]], upper.panel=panel.cor, diag.panel  =  panel.diag, lwd = 2, col = "grey", labels=names(data), cex.labels=4){
 
   # remove character columns and NA values
   data <- data[, lapply(data, class) != 'character']
@@ -474,7 +472,7 @@ mf_pairs <- function(data, lower.panel = c(panel.lm, panel.smooth)[[1]], upper.p
 #' @examples
 #'
 ################ mf_pairs2 ########################################
-mf_pairs2 <- function(data, lower.panel=panel.smooth, upper.panel=panel.cor, diag.panel  =  panel.diag, lwd = 2, col = "grey", labels='', cex.labels=4){
+plotpairs2 <- function(data, lower.panel=panel.smooth, upper.panel=panel.cor, diag.panel  =  panel.diag, lwd = 2, col = "grey", labels='', cex.labels=4){
   panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...)
   {
     usr <- par("usr"); on.exit(par(usr))
@@ -529,14 +527,14 @@ mf_pairs2 <- function(data, lower.panel=panel.smooth, upper.panel=panel.cor, dia
 #' @export
 #' @examples
 #'
-mf_plotblank <- function() plot(1, type = 'n', axes = FALSE, xlab = '', ylab = '')
+plotblank <- function() plot(1, type = 'n', axes = FALSE, xlab = '', ylab = '')
 
 #' A reminder for colors
 #' @return  a figure
 #' @export
 #' @examples
 #'
-mf_plotcolors <- function(){
+plotcolors <- function(){
   SetTextContrastColor <- function(color)
   {
     ifelse( mean(col2rgb(color)) > 127, "black", "white")
@@ -597,7 +595,7 @@ mf_plotcolors <- function(){
 #' @export
 #' @examples
 #'
-mf_plotlty <- function(){
+plotlty <- function(){
   ltynr <- 6
   plot(0:ltynr + 1, 0:ltynr + 1, type = 'n', axes = FALSE, xlab = "", ylab = "")
   axis(2, las = 1, lwd = 0, at = seq(1, ltynr))
@@ -610,7 +608,7 @@ mf_plotlty <- function(){
 #' @export
 #' @examples
 #'
-mf_plotpch <- function(){
+plotpch <- function(){
   mypch <- 0:25
   x <- rep(1:13, 2)
   y <- rep(c(1, 1.8), each = 13)
@@ -623,7 +621,7 @@ mf_plotpch <- function(){
 #' @export
 #' @examples
 #'
-mf_plottype <- function(){
+plottype <- function(){
   par(mfrow = c(3,3), cex = 1.2, mar = c(0, 0, 0, 0))
   y <- rnorm(n = 6)
   for (i in c("p", 'l', "b", "c", "o", "h", "s", "S", "n")) {
@@ -641,7 +639,7 @@ mf_plottype <- function(){
 #' @export
 #' @examples
 #'
-mf_readdir <- function(wd = ".", sep = c(","))
+readdir <- function(wd = ".", sep = c(","))
 {
   x <- dir("./")
   y <- list()
@@ -665,7 +663,7 @@ mf_readdir <- function(wd = ".", sep = c(","))
 #' @export
 #' @examples
 #'
-mf_se <- function(x, na.rm = TRUE) {sd(x, na.rm = na.rm)/sqrt(sum(!is.na(x)))}
+se <- function(x, na.rm = TRUE) {sd(x, na.rm = na.rm)/sqrt(sum(!is.na(x)))}
 
 
 #' a friendly version of tapply for dataframes. in and out: same as tapply(). the built-in function tapply returns a matrix with unfriendly row name and colname. mf-tapply returns a friendly dataframe
@@ -677,7 +675,7 @@ mf_se <- function(x, na.rm = TRUE) {sd(x, na.rm = na.rm)/sqrt(sum(!is.na(x)))}
 #' @export
 #' @examples
 #'
-mf_tapply <- function(data, select = names(data), myfactor, ..., na.rm = c(TRUE, FALSE, NULL)[1])
+tapplydf <- function(data, select = names(data), myfactor, ..., na.rm = c(TRUE, FALSE, NULL)[1])
 {
   if (is.null(na.rm)) {
     y <- data.frame(tapply(data[, select[1]], data[, myfactor],...))
@@ -712,7 +710,7 @@ mf_tapply <- function(data, select = names(data), myfactor, ..., na.rm = c(TRUE,
 #' @export
 #' @examples
 #'
-mf_vtapply <- function(colname = "tapply", x, factor, ...) # x must be a vector
+tapplydfv <- function(colname = "tapply", x, factor, ...) # x must be a vector
 {
   y <- data.frame(tapply(x, factor, ..., na.rm = TRUE))
   names(y) <- colname
@@ -729,7 +727,7 @@ mf_vtapply <- function(colname = "tapply", x, factor, ...) # x must be a vector
 #' @export
 #' @examples
 #'
-mf_write <- function(data, writefile, row.names = FALSE)
+writefile <- function(data, writefile, row.names = FALSE)
   if (file.exists(writefile)){
     warning('File exists! New file is not saved!')
   } else {
