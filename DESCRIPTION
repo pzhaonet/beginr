@@ -1,0 +1,18 @@
+Package: beginr
+Version: 0.0.0
+Date: 2017-06-22
+Title: Functions for R Beginners
+Author: Peng Zhao
+Maintainer: Peng Zhao <pzhao@pzhao.net>
+Depends: R (>= 3.1.0)
+Imports:
+Suggests:
+Description: Some useful functions for R beginners. Memos for R experts.
+License: GPL
+URL: https://github.com/pzhaonet/beginr
+BugReports: https://github.com/pzhaonet/beginr/issues
+VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.0.1
+NeedsCompilation: no
+
