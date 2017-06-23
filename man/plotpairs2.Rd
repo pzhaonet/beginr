@@ -9,6 +9,20 @@ plotpairs2(data, lower.panel = panel.smooth, upper.panel = panel.cor,
 }
 \arguments{
 \item{data}{a dataframe}
+
+\item{lower.panel}{can be panel.lm or panel.smooth}
+
+\item{upper.panel}{panel.cor}
+
+\item{diag.panel}{panel.diag}
+
+\item{lwd}{numeric}
+
+\item{col}{colors}
+
+\item{labels}{character}
+
+\item{cex.labels}{character}
 }
 \value{
 a pair plot
@@ -17,5 +31,6 @@ a pair plot
 plot pair-wise correlations  with p value. in: a dataframe. out: a figure.
 }
 \examples{
-
+df <- data.frame(a = 1:10, b = 1:10 + rnorm(10), c = 1:10 + rnorm(10))
+plotpairs2(df)
 }

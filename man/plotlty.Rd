@@ -2,7 +2,7 @@
 % Please edit documentation in R/foo.R
 \name{plotlty}
 \alias{plotlty}
-\title{lty}
+\title{A reminder for lty}
 \usage{
 plotlty()
 }
@@ -10,8 +10,9 @@ plotlty()
 a figure reminding you lty
 }
 \description{
-lty
+A reminder for lty
 }
 \examples{
+plotlty()
 
 }

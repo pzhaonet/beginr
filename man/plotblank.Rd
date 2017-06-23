@@ -13,5 +13,6 @@ a blank figure
 plot a blank figure
 }
 \examples{
+plotblank()
 
 }

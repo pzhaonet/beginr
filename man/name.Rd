@@ -16,5 +16,7 @@ a list
 Enhancement of names()
 }
 \examples{
+df <- data.frame(a = NA, b = NA, c = NA)
+name(df)
 
 }

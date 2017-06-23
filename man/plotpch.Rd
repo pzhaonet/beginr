@@ -2,7 +2,7 @@
 % Please edit documentation in R/foo.R
 \name{plotpch}
 \alias{plotpch}
-\title{pch numbers}
+\title{A reminder for pch}
 \usage{
 plotpch()
 }
@@ -10,8 +10,9 @@ plotpch()
 a figure reminding you pch
 }
 \description{
-pch numbers
+A reminder for pch
 }
 \examples{
+plotpch()
 
 }

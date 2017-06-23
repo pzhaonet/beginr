@@ -7,6 +7,8 @@
 writefile(data, writefile, row.names = FALSE)
 }
 \arguments{
+\item{data}{a data frame}
+
 \item{writefile}{destination file}
 
 \item{row.names}{logical}
@@ -16,7 +18,4 @@ write a file
 }
 \description{
 save csv file with asking if the file already exists.
-}
-\examples{
-
 }

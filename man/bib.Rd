@@ -4,20 +4,20 @@
 \alias{bib}
 \title{Create a bib file for R packages, including the citations of user-defined packages.}
 \usage{
-bib(pkg = c("base"), bibfile = "packages.bib")
+bib(pkg = c("base"), bibfile = "")
 }
 \arguments{
-\item{pkg}{packages}
+\item{pkg}{character. Packages}
 
-\item{bibfile}{file path and name to save the bib entries.}
+\item{bibfile}{character. File path and name to save the bib entries.  If "" (the default), it prints to the standard output connection, the console unless redirected by sink.}
 }
 \value{
-a bib file
+bib entries
 }
 \description{
 Create a bib file for R packages, including the citations of user-defined packages.
 }
 \examples{
 bib()
-bib(pkg = c("base", "knitr"))
+bib(pkg = c("mindr", "bookdownplus", "pinyin"))
 }

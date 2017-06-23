@@ -7,7 +7,11 @@
 lmdf(data, simply = FALSE, intercept = TRUE)
 }
 \arguments{
-\item{data}{a datafrram}
+\item{data}{a dataframe}
+
+\item{simply}{logical}
+
+\item{intercept}{logical}
 }
 \value{
 another dataframe
@@ -16,5 +20,7 @@ another dataframe
 calculate linear regression between every two columns in a data frame. in: a dataframes. out: a dataframe showing the linear regression.
 }
 \examples{
+df <- data.frame(a = 1:10, b = 1:10 + rnorm(10), c = 1:10 + rnorm(10))
+lmdf(df)
 
 }

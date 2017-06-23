@@ -7,6 +7,8 @@
 se(x, na.rm = TRUE)
 }
 \arguments{
+\item{x}{numeric}
+
 \item{na.rm}{logical}
 }
 \value{
@@ -16,5 +18,6 @@ se
 standard error
 }
 \examples{
+se(1:10)
 
 }

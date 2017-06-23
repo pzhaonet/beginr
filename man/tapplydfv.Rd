@@ -6,12 +6,18 @@
 \usage{
 tapplydfv(colname = "tapply", x, factor, ...)
 }
+\arguments{
+\item{colname}{character}
+
+\item{x}{a datafrom}
+
+\item{factor}{factor for tapply}
+
+\item{...}{the function to apply to data}
+}
 \value{
 a dataframe
 }
 \description{
 a friendly version of tapply
-}
-\examples{
-
 }

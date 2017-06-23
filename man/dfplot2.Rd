@@ -16,13 +16,21 @@ dfplot2(x, y, xlab = "x", ylab = "y", xlim = NULL, ylim = NULL, mycol = NULL,
 
 \item{ylab}{character}
 
+\item{xlim}{numeric}
+
+\item{ylim}{numeric}
+
 \item{mycol}{colours}
+
+\item{mylty}{numeric}
 
 \item{xerror}{errorbar, same dimension of x}
 
 \item{yerror}{same dimension of y}
 
 \item{mycolerrorbar}{error bar colours}
+
+\item{mylegend}{character}
 }
 \value{
 a figure
@@ -31,5 +39,9 @@ a figure
 Plot a dataframe, one y against multiple xs
 }
 \examples{
+x <- seq(0, 2 * pi, length.out = 100)
+y <- data.frame(sin(x), cos(x))
+yerror <- data.frame(abs(rnorm(100, sd = 0.3)), abs(rnorm(100, sd = 0.1)))
+dfplot2(y, x, xerror = yerror)
 
 }

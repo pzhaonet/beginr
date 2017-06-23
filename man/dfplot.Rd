@@ -48,9 +48,9 @@ dfplot(x, y, add = FALSE, xlab = "", ylab = "", myaxes = FALSE, xlim = NULL,
 
 \item{mylegendcol}{colors}
 
-\item{legendpos}{character}
+\item{mylegendcex}{numeric}
 
-\item{myledendcex}{numeric}
+\item{legendpos}{character}
 }
 \value{
 a figure
@@ -59,5 +59,9 @@ a figure
 Plot a dataframe, multiple ys against one x
 }
 \examples{
+x <- seq(0, 2 * pi, length.out = 100)
+y <- data.frame(sin(x), cos(x))
+yerror <- data.frame(abs(rnorm(100, sd = 0.3)), abs(rnorm(100, sd = 0.1)))
+dfplot(x, y, yerror = yerror)
 
 }

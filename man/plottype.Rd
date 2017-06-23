@@ -2,7 +2,7 @@
 % Please edit documentation in R/foo.R
 \name{plottype}
 \alias{plottype}
-\title{type}
+\title{A reminder for type}
 \usage{
 plottype()
 }
@@ -10,8 +10,9 @@ plottype()
 a figure reminding you type
 }
 \description{
-type
+A reminder for type
 }
 \examples{
+plottype()
 
 }

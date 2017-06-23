@@ -8,6 +8,8 @@ list2ascii(x, file = paste(deparse(substitute(x)), ".txt", sep = ""))
 }
 \arguments{
 \item{x}{a list}
+
+\item{file}{character. file name}
 }
 \value{
 a file
@@ -16,5 +18,7 @@ a file
 Save a list into an ASCII file. in: a list. out: a file.
 }
 \examples{
+alist <- list(a = 1:10, b = letters)
+list2ascii(alist)
 
 }

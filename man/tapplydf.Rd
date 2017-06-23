@@ -2,7 +2,7 @@
 % Please edit documentation in R/foo.R
 \name{tapplydf}
 \alias{tapplydf}
-\title{a friendly version of tapply for dataframes. in and out: same as tapply(). the built-in function tapply returns a matrix with unfriendly row name and colname. mf-tapply returns a friendly dataframe}
+\title{a friendly version of tapply for dataframes}
 \usage{
 tapplydf(data, select = names(data), myfactor, ..., na.rm = c(TRUE, FALSE, NULL)[1])
 }
@@ -12,13 +12,14 @@ tapplydf(data, select = names(data), myfactor, ..., na.rm = c(TRUE, FALSE, NULL)
 \item{select}{character, column names to calc}
 
 \item{myfactor}{a colname as factor}
+
+\item{...}{function to apply to data}
+
+\item{na.rm}{logical}
 }
 \value{
 a dataframe
 }
 \description{
-a friendly version of tapply for dataframes. in and out: same as tapply(). the built-in function tapply returns a matrix with unfriendly row name and colname. mf-tapply returns a friendly dataframe
-}
-\examples{
-
+a friendly version of tapply for dataframes
 }

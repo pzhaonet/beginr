@@ -2,12 +2,12 @@
 % Please edit documentation in R/foo.R
 \name{readdir}
 \alias{readdir}
-\title{batch read several files. in: a path. out: a list containing all data frames}
+\title{Read multiple tables into a list.}
 \usage{
-readdir(wd = ".", sep = c(","))
+readdir(mydir = getwd(), sep = c(","))
 }
 \arguments{
-\item{wd}{working dir}
+\item{mydir}{the folder path}
 
 \item{sep}{sep of each file}
 }
@@ -15,8 +15,5 @@ readdir(wd = ".", sep = c(","))
 a list
 }
 \description{
-batch read several files. in: a path. out: a list containing all data frames
-}
-\examples{
-
+Read multiple tables into a list.
 }

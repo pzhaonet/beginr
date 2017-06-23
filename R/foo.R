@@ -1,28 +1,39 @@
 #' Create a bib file for R packages, including the citations of user-defined packages.
-#' @param pkg packages
-#' @param bibfile file path and name to save the bib entries.
-#' @return a bib file
+#'
+#' @param pkg character. Packages
+#' @param bibfile character. File path and name to save the bib entries.  If "" (the default), it prints to the standard output connection, the console unless redirected by sink.
+#'
+#' @return bib entries
 #' @export
 #' @examples
 #' bib()
-#' bib(pkg = c('base', 'knitr'))
-bib <- function(pkg = c('base'), bibfile = 'packages.bib'){
+#' bib(pkg = c('mindr', 'bookdownplus', 'pinyin'))
+#' @importFrom grDevices col2rgb colors rainbow rgb rgb2hsv
+#' @importFrom graphics abline arrows axis box hist legend lines mtext pairs panel.smooth par plot points polygon rect rug strwidth text
+#' @importFrom stats IQR cor cor.test density dnorm fivenum lm rnorm sd
+#' @importFrom utils citation read.table toBibtex write.csv
+
+bib <- function(pkg = c('base'), bibfile = ''){
   pkg <- unique(pkg[order(pkg)])
   for (i in pkg){
-    # if (class(try(citation(i))) == 'try-error') install.packages(i)
-    cti <- toBibtex(citation(i))
-    entryloc <- grep(pattern = '^@', cti)
-    cti[entryloc] <- gsub(',', paste('R-',i, ',', sep =''), cti[entryloc])
-    symbol6loc <- grep('&', cti)
-    for (j in symbol6loc) {
-      cti[j] <- gsub(pattern = ' &', replacement = ' \\\\&', cti[j])
+    if (class(try(citation(i))) == 'try-error') {
+      message(paste(i, 'has not been installed yet. Please install it and run again.'))
+    } else {
+      cti <- toBibtex(citation(i))
+      entryloc <- grep(pattern = '^@', cti)
+      cti[entryloc] <- gsub(',', paste('R-',i, ',', sep =''), cti[entryloc])
+      symbol6loc <- grep('&', cti)
+      for (j in symbol6loc) {
+        cti[j] <- gsub(pattern = ' &', replacement = ' \\\\&', cti[j])
+      }
+      if (length(entryloc) > 1)  cti[entryloc] <- paste(substr(cti[entryloc], 1, nchar(cti[entryloc])-1), 1:length(entryloc), ',', sep ='')
+      cat(cti, sep = '\n', file = bibfile, append = TRUE)
     }
-    if (length(entryloc) > 1)  cti[entryloc] <- paste(substr(cti[entryloc], 1, nchar(cti[entryloc])-1), 1:length(entryloc), ',', sep ='')
-    cat(cti, sep = '\n', file = bibfile, append = TRUE)
   }
 }
 
 #' Plot a dataframe, multiple ys against one x
+#'
 #' @param x a vector
 #' @param y a vector or a dataframe with the same length as x
 #' @param add logical, whether to add this plot to the previous one
@@ -42,11 +53,17 @@ bib <- function(pkg = c('base'), bibfile = 'packages.bib'){
 #' @param mycolerrorbar error bar colours
 #' @param mylegend character
 #' @param mylegendcol colors
-#' @param myledendcex numeric
+#' @param mylegendcex numeric
 #' @param legendpos character
+#'
 #' @return a figure
 #' @export
 #' @examples
+#' x <- seq(0, 2 * pi, length.out = 100)
+#' y <- data.frame(sin(x), cos(x))
+#' yerror <- data.frame(abs(rnorm(100, sd = 0.3)),
+#'                      abs(rnorm(100, sd = 0.1)))
+#' dfplot(x, y, yerror = yerror)
 #'
 dfplot <- function(x, y,
                    add = FALSE,
@@ -106,20 +123,28 @@ dfplot <- function(x, y,
 }
 
 #' Plot a dataframe, one y against multiple xs
+#'
 #' @param x a vector  or a dataframe with the same length as x
 #' @param y a vector
 #' @param xlab character
 #' @param ylab character
-#' @param xlim
-#' @param ylim
+#' @param xlim numeric
+#' @param ylim numeric
 #' @param mycol colours
 #' @param xerror errorbar, same dimension of x
 #' @param yerror same dimension of y
 #' @param mycolerrorbar error bar colours
-#' @param mylegend
+#' @param mylty numeric
+#' @param mylegend character
+#'
 #' @return a figure
 #' @export
 #' @examples
+#' x <- seq(0, 2 * pi, length.out = 100)
+#' y <- data.frame(sin(x), cos(x))
+#' yerror <- data.frame(abs(rnorm(100, sd = 0.3)),
+#'                      abs(rnorm(100, sd = 0.1)))
+#' dfplot2(y, x, xerror = yerror)
 #'
 dfplot2 <- function(x, y,
                     xlab = 'x', ylab = 'y',
@@ -167,17 +192,23 @@ dfplot2 <- function(x, y,
 }
 
 #' add error bars to a scatterplot.
-#' @param x
-#' @param y
-#' @param xupper
-#' @param xlower
-#' @param yupper
-#' @param ylower
-#' @param col
-#' @param lty
+#'
+#' @param x numeric
+#' @param y numeric
+#' @param xupper numeric
+#' @param xlower numeric
+#' @param yupper numeric
+#' @param ylower numeric
+#' @param col colors
+#' @param lty numeric
+#'
 #' @return errorbars in a plot
 #' @export
 #' @examples
+#' x <- seq(0, 2 * pi, length.out = 100)
+#' y <- sin(x)
+#' plot(x, y, type = 'l')
+#' errorbar(x, y, yupper = 0.1, ylower = 0.1)
 #'
 errorbar <- function(x, y, xupper = NULL, xlower = NULL, yupper = NULL, ylower = NULL, col = 'black', lty = 1)
 {
@@ -197,27 +228,34 @@ errorbar <- function(x, y, xupper = NULL, xlower = NULL, yupper = NULL, ylower =
 
 
 #' Plot a user-customized hist
-#' @param data
-#' @param mybreaks
-#' @param myxlim
-#' @param myylim
-#' @param eightlines
-#' @param eightdigit
-#' @param eightcex
-#' @param eightcolors
-#' @param mylegend
-#' @param myxlab
-#' @param show_n
-#' @param show_skewness
-#' @param show_density
+#' @param data a numeric vector
+#' @param mybreaks character
+#' @param myxlim numeric
+#' @param myylim numeric
+#' @param eightlines logical
+#' @param eightdigit numeric
+#' @param eightcex numeric
+#' @param eightcolors colors
+#' @param mylegend character
+#' @param myxlab character
+#' @param show_n logical
+#' @param show_skewness logical
+#' @param show_density logcial
 #' @return a hist plot
 #' @export
 #' @examples
-#'
+#' plothist(rnorm(10000))
 plothist <- function(data, mybreaks = "Sturges", myxlim = NULL, myylim = NULL,
                      eightlines = TRUE, eightdigit = 0, eightcex = 0.8, eightcolors = c('red','darkgreen','blue', 'black', 'purple', 'gold')[c(1,2,3,2,1,6,6,5,4,5)],
                      mylegend = '', myxlab = '',
                      show_n = TRUE, show_skewness = TRUE, show_density = FALSE) {
+  mf_skewness <- function(x){
+    x <- x[!is.na(x)]
+    n <- length(x)
+    skewness <- n / (n-1) / (n-2) * sum((x - mean(x)) ^ 3) / sd(x) ^3
+    se_skewness <- sqrt(6/length(x))
+    return(skewness/se_skewness)
+  }
   if (is.null(myylim)) myylim <- c(0, max(hist(data, breaks = mybreaks, plot = FALSE)$density) * 1.1)
   if (is.null(myxlim)) {
     hist(data, col = 'grey', border = NA, main = '', freq = FALSE, breaks = mybreaks, xlab = myxlab, ylim = myylim)#, axes = FALSE, breaks = mybreaks)
@@ -252,10 +290,12 @@ plothist <- function(data, mybreaks = "Sturges", myxlim = NULL, myylim = NULL,
 
 #' Save a list into an ASCII file. in: a list. out: a file.
 #' @param x a list
-#' @param file
+#' @param file character. file name
 #' @return a file
 #' @export
 #' @examples
+#' alist <- list(a = 1:10, b = letters)
+#' list2ascii(alist)
 #'
 list2ascii <- function(x, file = paste(deparse(substitute(x)), ".txt", sep = ""))
 {
@@ -273,22 +313,22 @@ list2ascii <- function(x, file = paste(deparse(substitute(x)), ".txt", sep = "")
   return(invisible(NULL))       # return (nothing) from function
 }
 
-#' plot a linear regression figure and return a list of parameters. in: two vectors. out: a figure and a list.
-#' @param x
-#' @param y
-#' @param xlim
-#' @param ylim
-#' @param plot.title
-#' @param xlab
-#' @param ylab
-#' @param refline logical, reference line
+#' plot a linear regression figure and return a list of parameters.
+#' @param x numeric
+#' @param y numeric
+#' @param xlim numeric
+#' @param ylim numeric
+#' @param plot.title character
+#' @param xlab character
+#' @param ylab character
+#' @param refline logical. if a reference line is plotted
 #' @param slope slope of refline
-#' @param intercept of refline
+#' @param intercept intercept of refline
 #' @param showr2 logical
 #' @param showleg logical
 #' @return a figure
 #' @export
-#' @examples
+#' @examples plotlm(1:10, 1:10 + rnorm(10))
 #'
 plotlm <- function(x, y,
                    xlim = range(as.numeric(x), na.rm = TRUE), ylim = range(as.numeric(y), na.rm = TRUE),
@@ -327,10 +367,16 @@ plotlm <- function(x, y,
 }
 
 #' calculate linear regression between every two columns in a data frame. in: a dataframes. out: a dataframe showing the linear regression.
-#' @param data a datafrram
+#'
+#' @param simply logical
+#' @param intercept logical
+#' @param data a dataframe
+#'
 #' @return another dataframe
 #' @export
 #' @examples
+#' df <- data.frame(a = 1:10, b = 1:10 + rnorm(10), c = 1:10 + rnorm(10))
+#' lmdf(df)
 #'
 lmdf <- function(data, simply = FALSE, intercept = TRUE){
   ncol <- ncol(data)
@@ -362,10 +408,14 @@ lmdf <- function(data, simply = FALSE, intercept = TRUE){
 }
 
 #' Enhancement of names()
+#'
 #' @param data a dataframe
+#'
 #' @return a list
 #' @export
 #' @examples
+#' df <- data.frame(a = NA, b = NA, c = NA)
+#' name(df)
 #'
 name <- function(data) {
   #   print(paste(names(data), collapse = "','"))
@@ -378,17 +428,21 @@ name <- function(data) {
 }
 
 #' plot pair-wise correlations. in: a dataframe. out: a figure.
+#'
 #' @param data a dataframe
-#' @param lower.panel
-#' @param upper.panel
-#' @param diag.panel
-#' @param lwd
-#' @param col
-#' @param labels
-#' @param cex.labels
+#' @param lower.panel can be panel.lm or panel.smooth
+#' @param upper.panel panel.cor
+#' @param diag.panel panel.diag
+#' @param lwd numeric
+#' @param col colors
+#' @param labels character
+#' @param cex.labels character
+#'
 #' @return a pair plot
 #' @export
 #' @examples
+#' df <- data.frame(a = 1:10, b = 1:10 + rnorm(10), c = 1:10 + rnorm(10))
+#' plotpairs(df)
 #'
 plotpairs <- function(data, lower.panel = c(panel.lm, panel.smooth)[[1]], upper.panel=panel.cor, diag.panel  =  panel.diag, lwd = 2, col = "grey", labels=names(data), cex.labels=4){
 
@@ -459,26 +513,29 @@ plotpairs <- function(data, lower.panel = c(panel.lm, panel.smooth)[[1]], upper.
 }
 
 #' plot pair-wise correlations  with p value. in: a dataframe. out: a figure.
+#'
 #' @param data a dataframe
-#' @param lower.panel
-#' @param upper.panel
-#' @param diag.panel
-#' @param lwd
-#' @param col
-#' @param labels
-#' @param cex.labels
+#' @param lower.panel can be panel.lm or panel.smooth
+#' @param upper.panel panel.cor
+#' @param diag.panel panel.diag
+#' @param lwd numeric
+#' @param col colors
+#' @param labels character
+#' @param cex.labels character
+#'
 #' @return a pair plot
 #' @export
 #' @examples
-#'
-################ mf_pairs2 ########################################
+#' df <- data.frame(a = 1:10, b = 1:10 + rnorm(10), c = 1:10 + rnorm(10))
+#' plotpairs2(df)
+
 plotpairs2 <- function(data, lower.panel=panel.smooth, upper.panel=panel.cor, diag.panel  =  panel.diag, lwd = 2, col = "grey", labels='', cex.labels=4){
   panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...)
   {
     usr <- par("usr"); on.exit(par(usr))
     par(usr = c(0, 1, 0, 1))
     r <- cor(x, y)
-    txt <- format(c(r, 0.123456789), digits=digits)[1]#防止末位为0
+    txt <- format(c(r, 0.123456789), digits=digits)[1]
     txt <- paste(prefix, txt, sep="")
     if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt)
     test <- cor.test(x,y)
@@ -526,13 +583,17 @@ plotpairs2 <- function(data, lower.panel=panel.smooth, upper.panel=panel.cor, di
 #' @return a blank figure
 #' @export
 #' @examples
+#' plotblank()
 #'
-plotblank <- function() plot(1, type = 'n', axes = FALSE, xlab = '', ylab = '')
+plotblank <- function() {
+  plot(1, type = 'n', axes = FALSE, xlab = '', ylab = '')
+}
 
 #' A reminder for colors
 #' @return  a figure
 #' @export
 #' @examples
+#' plotcolors()
 #'
 plotcolors <- function(){
   SetTextContrastColor <- function(color)
@@ -590,10 +651,11 @@ plotcolors <- function(){
   par(oldpar)
 }
 
-#' lty
+#' A reminder for lty
 #' @return a figure reminding you lty
 #' @export
 #' @examples
+#' plotlty()
 #'
 plotlty <- function(){
   ltynr <- 6
@@ -603,10 +665,11 @@ plotlty <- function(){
 }
 
 
-#' pch numbers
+#' A reminder for pch
 #' @return a figure reminding you pch
 #' @export
 #' @examples
+#' plotpch()
 #'
 plotpch <- function(){
   mypch <- 0:25
@@ -616,10 +679,11 @@ plotpch <- function(){
   text(x, y, labels = mypch, pos = 1, offset = 2, cex = 2)
 }
 
-#' type
+#' A reminder for type
 #' @return a figure reminding you type
 #' @export
 #' @examples
+#' plottype()
 #'
 plottype <- function(){
   par(mfrow = c(3,3), cex = 1.2, mar = c(0, 0, 0, 0))
@@ -632,48 +696,55 @@ plottype <- function(){
 }
 
 
-#' batch read several files. in: a path. out: a list containing all data frames
-#' @param wd working dir
+#' Read multiple tables into a list.
+#'
 #' @param sep sep of each file
+#' @param mydir the folder path
+#'
 #' @return a list
 #' @export
-#' @examples
 #'
-readdir <- function(wd = ".", sep = c(","))
+readdir <- function(mydir = getwd(), sep = c(","))
 {
-  x <- dir("./")
+  x <- dir(mydir, full.names = TRUE)
   y <- list()
-  for (i in 1:length(input.ls))
-  {
-    input.p <- paste(wd, x[i], sep = "\\")
-    y[[as.character(i)]] <- read.table(input.p,
-                                       header = TRUE,
-                                       sep = sep[i],
-                                       fill = TRUE,
-                                       na.strings = c("Inf","-Inf","NA", "NaN"),
-                                       stringsAsFactors = FALSE)
+  for (i in 1:length(x)) {
+    y[[as.character(i)]] <-
+      read.table(x[i],
+                 header = TRUE,
+                 sep = sep[i],
+                 fill = TRUE,
+                 na.strings = c("Inf","-Inf","NA", "NaN"),
+                 stringsAsFactors = FALSE)
   }
   return(y)
 }
 
 #' standard error
-#' @param x
+#'
+#' @param x numeric
 #' @param na.rm logical
+#'
 #' @return se
 #' @export
 #' @examples
+#' se(1:10)
 #'
-se <- function(x, na.rm = TRUE) {sd(x, na.rm = na.rm)/sqrt(sum(!is.na(x)))}
+se <- function(x, na.rm = TRUE) {
+  sd(x, na.rm = na.rm)/sqrt(sum(!is.na(x)))
+  }
 
 
-#' a friendly version of tapply for dataframes. in and out: same as tapply(). the built-in function tapply returns a matrix with unfriendly row name and colname. mf-tapply returns a friendly dataframe
+#' a friendly version of tapply for dataframes
+#'
 #' @param data dataframe
 #' @param select character, column names to calc
 #' @param myfactor a colname as factor
-#' @param na.rm
+#' @param ... function to apply to data
+#' @param na.rm logical
+#'
 #' @return a dataframe
 #' @export
-#' @examples
 #'
 tapplydf <- function(data, select = names(data), myfactor, ..., na.rm = c(TRUE, FALSE, NULL)[1])
 {
@@ -703,12 +774,14 @@ tapplydf <- function(data, select = names(data), myfactor, ..., na.rm = c(TRUE, 
 
 
 #' a friendly version of tapply
-#' @param colname
-#' @param x
-#' @param factor
+#'
+#' @param colname character
+#' @param x a datafrom
+#' @param ... the function to apply to data
+#' @param factor factor for tapply
+#'
 #' @return a dataframe
 #' @export
-#' @examples
 #'
 tapplydfv <- function(colname = "tapply", x, factor, ...) # x must be a vector
 {
@@ -720,16 +793,18 @@ tapplydfv <- function(colname = "tapply", x, factor, ...) # x must be a vector
 }
 
 #' save csv file with asking if the file already exists.
-#' @param data
+#'
+#' @param data a data frame
 #' @param writefile destination file
 #' @param row.names logical
+#'
 #' @return write a file
 #' @export
-#' @examples
 #'
-writefile <- function(data, writefile, row.names = FALSE)
+writefile <- function(data, writefile, row.names = FALSE) {
   if (file.exists(writefile)){
     warning('File exists! New file is not saved!')
   } else {
     write.csv(data, file = writefile, row.names = row.names)
   }
+}

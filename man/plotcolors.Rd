@@ -13,5 +13,6 @@ a figure
 A reminder for colors
 }
 \examples{
+plotcolors()
 
 }

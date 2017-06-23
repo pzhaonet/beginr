@@ -9,6 +9,33 @@ plothist(data, mybreaks = "Sturges", myxlim = NULL, myylim = NULL, eightlines = 
         "purple", "gold")[c(1, 2, 3, 2, 1, 6, 6, 5, 4, 5)], mylegend = "", myxlab = "", 
     show_n = TRUE, show_skewness = TRUE, show_density = FALSE)
 }
+\arguments{
+\item{data}{a numeric vector}
+
+\item{mybreaks}{character}
+
+\item{myxlim}{numeric}
+
+\item{myylim}{numeric}
+
+\item{eightlines}{logical}
+
+\item{eightdigit}{numeric}
+
+\item{eightcex}{numeric}
+
+\item{eightcolors}{colors}
+
+\item{mylegend}{character}
+
+\item{myxlab}{character}
+
+\item{show_n}{logical}
+
+\item{show_skewness}{logical}
+
+\item{show_density}{logcial}
+}
 \value{
 a hist plot
 }
@@ -16,5 +43,5 @@ a hist plot
 Plot a user-customized hist
 }
 \examples{
-
+plothist(rnorm(10000))
 }

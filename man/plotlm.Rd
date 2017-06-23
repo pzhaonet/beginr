@@ -2,18 +2,32 @@
 % Please edit documentation in R/foo.R
 \name{plotlm}
 \alias{plotlm}
-\title{plot a linear regression figure and return a list of parameters. in: two vectors. out: a figure and a list.}
+\title{plot a linear regression figure and return a list of parameters.}
 \usage{
 plotlm(x, y, xlim = range(as.numeric(x), na.rm = TRUE), ylim = range(as.numeric(y), 
     na.rm = TRUE), plot.title = "linear regression", xlab = "x", ylab = "y", 
     refline = FALSE, slope = 1, intercept = 0, showr2 = TRUE, showleg = TRUE)
 }
 \arguments{
-\item{refline}{logical, reference line}
+\item{x}{numeric}
+
+\item{y}{numeric}
+
+\item{xlim}{numeric}
+
+\item{ylim}{numeric}
+
+\item{plot.title}{character}
+
+\item{xlab}{character}
+
+\item{ylab}{character}
+
+\item{refline}{logical. if a reference line is plotted}
 
 \item{slope}{slope of refline}
 
-\item{intercept}{of refline}
+\item{intercept}{intercept of refline}
 
 \item{showr2}{logical}
 
@@ -23,8 +37,9 @@ plotlm(x, y, xlim = range(as.numeric(x), na.rm = TRUE), ylim = range(as.numeric(
 a figure
 }
 \description{
-plot a linear regression figure and return a list of parameters. in: two vectors. out: a figure and a list.
+plot a linear regression figure and return a list of parameters.
 }
 \examples{
+plotlm(1:10, 1:10 + rnorm(10))
 
 }
