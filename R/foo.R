@@ -657,11 +657,11 @@ plotcolors <- function(){
 #' @examples
 #' plotlty()
 #'
-plotlty <- function(){
+plotlty <- function(mylwd = 1){
   ltynr <- 6
   plot(0:ltynr + 1, 0:ltynr + 1, type = 'n', axes = FALSE, xlab = "", ylab = "")
   axis(2, las = 1, lwd = 0, at = seq(1, ltynr))
-  abline(h = seq(1, ltynr), lty = 1:ltynr )
+  abline(h = seq(1, ltynr), lty = 1:ltynr, lwd = mylwd )
 }
 
 
@@ -671,11 +671,11 @@ plotlty <- function(){
 #' @examples
 #' plotpch()
 #'
-plotpch <- function(){
+plotpch <- function(mycex = 5){
   mypch <- 0:25
   x <- rep(1:13, 2)
   y <- rep(c(1, 1.8), each = 13)
-  plot(x, y, pch = mypch, ylim = c(0.5, 2.5), cex = 5, xlab = '', ylab = '', axes = FALSE)
+  plot(x, y, pch = mypch, ylim = c(0.5, 2.5), cex = mycex, xlab = '', ylab = '', axes = FALSE)
   text(x, y, labels = mypch, pos = 1, offset = 2, cex = 2)
 }
 
@@ -718,6 +718,17 @@ readdir <- function(mydir = getwd(), sep = c(","))
                  stringsAsFactors = FALSE)
   }
   return(y)
+}
+
+#' Create a new R package demo folder
+#' @return a folder with an R package skeleton
+#' @export
+#' @examples
+#' rpkg()
+#'
+rpkg <- function(){
+  mypath <- paste0(.libPaths(), '/beginr/zip/')
+  unzip(paste0(mypath[dir.exists(mypath)][1], 'rpkg.zip'))
 }
 
 #' standard error

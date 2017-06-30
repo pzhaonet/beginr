@@ -4,7 +4,7 @@
 \alias{plotpch}
 \title{A reminder for pch}
 \usage{
-plotpch()
+plotpch(mycex = 5)
 }
 \value{
 a figure reminding you pch

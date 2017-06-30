@@ -4,7 +4,7 @@
 \alias{plotlty}
 \title{A reminder for lty}
 \usage{
-plotlty()
+plotlty(mylwd = 1)
 }
 \value{
 a figure reminding you lty

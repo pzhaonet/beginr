@@ -8,7 +8,9 @@ The instruction is available only in Chinese at the moment. A detailed descripti
 
 ## Updates
 
-- 2017-06-22. **Version 0.0.0**. Preliminary.
+- 2017-06-30. **v0.0.2**. One more function: `rpkg()` to create a skeleton for creating a new R package.
+- 2017-06-23. **v0.0.1**. Released on [CRAN](https://cran.r-project.org/web/packages/beginr/).
+- 2017-06-22. **v0.0.0**. Preliminary.
 
 <h1>简介</h1>
 <p>又一次高兴地宣布, 我的 R 语言扩展包 ‘beginr’ <span class="citation">(Zhao 2017a)</span> 在 CRAN <a href="https://cran.r-project.org/web/packages/beginr/">正式发布</a>了.</p>
