@@ -1,5 +1,7 @@
 # beginr: an R package for beginners
 
+ ![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/beginr)
+
 ## Introduction
 
 Useful functions for R beginners, including hints for the arguments of the 'plot()' function, self-defined functions for error bars, user-customized pair plots and hist plots, enhanced linear regression figures, etc.. This package could be helpful to R experts as well.
