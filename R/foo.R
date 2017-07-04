@@ -579,6 +579,49 @@ plotpairs2 <- function(data, lower.panel=panel.smooth, upper.panel=panel.cor, di
   pairs(data, lower.panel=lower.panel, upper.panel=upper.panel, diag.panel  =  diag.panel, lwd = 2, col = "grey", labels=labels, cex.labels=4)
 }
 
+#' plot daily download counts of packages
+#'
+#' @param mypkg character vector of package names.
+#' @param from character in 'Y-m-d'
+#' @param type the same as that in 'plot()'
+#' @param pch the same as that in 'plot()'
+#' @param col the same as that in 'plot()'
+#' @param cex the same as that in 'plot()'
+#' @param textcex cex of the package name
+#' @param to character in 'Y-m-d'
+#'
+#' @return a figure
+#' @export
+#'
+#' @examples plotpkg()
+plotpkg <- function(mypkg = c('bookdownplus', 'mindr', 'pinyin', 'beginr'),
+                    from = c('2017-06-21', '2017-06-19', '2017-06-19', '2017-06-23'),
+                    to = Sys.Date(),
+                    type = 'o',
+                    pch = 19,
+                    col = 'blue',
+                    cex = 1,
+                    textcex = 5){
+  nrpkg <- ifelse(is.null(mypkg), 1, length(mypkg))
+  if (length(from) == 1) from <- rep(from, nrpkg)
+  from <- as.Date(from)
+  to <- as.Date(to)
+  nr_down <- cranlogs::cran_downloads(packages = mypkg, from = min(from), to = to)
+  nr_down$count[nr_down$count == 0] <- NA
+  if (is.null(mypkg)) {nr_down$package <- 'all'; mypkg = 'all'}
+  Sys.setlocale("LC_ALL","English")
+  par(mfrow = c(nrpkg, 1), mar = c(2,6,0.5,0), las = 1)
+  for (i in 1:nrpkg){
+    plot(nr_down$date[nr_down$package == mypkg[i]],
+         nr_down$count[nr_down$package == mypkg[i]],
+         xlab = '', ylab = 'Downloads',
+         type = type, pch = pch, col = col, cex = cex)
+    legend('center', legend = mypkg[i], bty = 'n', cex = textcex, text.col = 'grey')
+    legend('topright', legend = paste0('n = ', sum(nr_down$count[nr_down$package == mypkg[i]], na.rm = TRUE)), bty = 'n', cex = cex)
+    abline(v = from[i], col = 'grey')
+  }
+}
+
 #' plot a blank figure
 #' @return a blank figure
 #' @export
@@ -649,6 +692,36 @@ plotcolors <- function(){
     }
   }
   par(oldpar)
+}
+
+#' A reminder for color bars
+#'
+#' @return a figure
+#' @export
+#'
+#' @examples plotcolorbar()
+plotcolorbar <- function() {
+  mycex <- 3
+  par(mfrow = c(7, 1), mar = c(2,0,0,0))
+  colorbar <- function(myfunction) {
+    barplot(rep(1,100), col= get(myfunction)(100)[1:100], yaxt = 'n', border = NA, space = 0)
+    legend('center', legend = paste0(myfunction, '(n)'), bty = 'n', cex = mycex)
+    axis(1, at = seq(0, 100, by = 10), tck = 0.2, col.ticks = 'white', col = 'white')
+    axis(3, at = seq(0, 100, by = 10), labels = NA, tck = 0.2, col = 'white')
+  }
+
+  lapply(X = c('rainbow',
+               'heat.colors',
+               'terrain.colors',
+               'topo.colors',
+               'cm.colors'), FUN = colorbar)
+  barplot(rep(1,100), col= gray(1:100/100), yaxt = 'n', border = NA, space = 0)
+  legend('center', legend = 'gray(x)', bty = 'n', cex = mycex)
+  axis(1, at = seq(0, 100, by = 10), labels = seq(0, 100, by = 10)/100, tck = 0.2, col.ticks = 'white', col = 'white')
+
+  barplot(rep(1,360), col= hcl(1:360), yaxt = 'n', border = NA, space = 0)
+  legend('center', legend = 'hcl(x)', bty = 'n', cex = mycex)
+  axis(1, at = seq(0, 360, by = 30), labels = seq(0, 360, by = 30), tck = 0.2, col.ticks = 'white', col = 'white')
 }
 
 #' A reminder for lty

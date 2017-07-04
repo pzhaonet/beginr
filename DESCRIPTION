@@ -1,11 +1,11 @@
 Package: beginr
-Version: 0.0.2
-Date: 2017-06-30
+Version: 0.0.3
+Date: 2017-07-04
 Title: Functions for R Beginners
 Author: Peng Zhao
 Maintainer: Peng Zhao <pzhao@pzhao.net>
 Depends: R (>= 3.1.0)
-Imports:
+Imports: cranlogs (>= 2.1.0)
 Suggests:
 Description: Useful functions for R beginners, including hints for the arguments of the 'plot()' function, self-defined functions for error bars, user-customized pair plots and hist plots, enhanced linear regression figures, etc.. This package could be helpful to R experts as well.
 License: GPL
