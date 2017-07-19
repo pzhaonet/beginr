@@ -6,6 +6,9 @@
 \usage{
 plotlty(mylwd = 1)
 }
+\arguments{
+\item{mylwd}{numeric. line width}
+}
 \value{
 a figure reminding you lty
 }

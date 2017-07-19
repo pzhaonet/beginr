@@ -8,11 +8,10 @@
 #' @examples
 #' bib()
 #' bib(pkg = c('mindr', 'bookdownplus', 'pinyin'))
-#' @importFrom grDevices col2rgb colors rainbow rgb rgb2hsv
-#' @importFrom graphics abline arrows axis box hist legend lines mtext pairs panel.smooth par plot points polygon rect rug strwidth text
+#' @importFrom grDevices col2rgb colors rainbow rgb rgb2hsv gray hcl
+#' @importFrom graphics abline arrows axis box hist legend lines mtext pairs panel.smooth par plot points polygon rect rug strwidth text barplot
 #' @importFrom stats IQR cor cor.test density dnorm fivenum lm rnorm sd
-#' @importFrom utils citation read.table toBibtex write.csv
-
+#' @importFrom utils citation read.table toBibtex write.csv unzip
 bib <- function(pkg = c('base'), bibfile = ''){
   pkg <- unique(pkg[order(pkg)])
   for (i in pkg){
@@ -594,32 +593,28 @@ plotpairs2 <- function(data, lower.panel=panel.smooth, upper.panel=panel.cor, di
 #' @export
 #'
 #' @examples plotpkg()
-plotpkg <- function(mypkg = c('bookdownplus', 'mindr', 'pinyin', 'beginr'),
-                    from = c('2017-06-21', '2017-06-19', '2017-06-19', '2017-06-23'),
+plotpkg <- function(mypkg = c('bookdownplus', 'mindr', 'pinyin', 'beginr')[1],
+                    from = c('2017-06-21', '2017-06-19', '2017-06-19', '2017-06-23')[1],
                     to = Sys.Date(),
                     type = 'o',
                     pch = 19,
                     col = 'blue',
                     cex = 1,
                     textcex = 5){
-  nrpkg <- ifelse(is.null(mypkg), 1, length(mypkg))
-  if (length(from) == 1) from <- rep(from, nrpkg)
   from <- as.Date(from)
   to <- as.Date(to)
-  nr_down <- cranlogs::cran_downloads(packages = mypkg, from = min(from), to = to)
+  nr_down <- cranlogs::cran_downloads(packages = mypkg, from = from, to = to)
   nr_down$count[nr_down$count == 0] <- NA
-  if (is.null(mypkg)) {nr_down$package <- 'all'; mypkg = 'all'}
   Sys.setlocale("LC_ALL","English")
-  par(mfrow = c(nrpkg, 1), mar = c(2,6,0.5,0), las = 1)
-  for (i in 1:nrpkg){
-    plot(nr_down$date[nr_down$package == mypkg[i]],
-         nr_down$count[nr_down$package == mypkg[i]],
-         xlab = '', ylab = 'Downloads',
-         type = type, pch = pch, col = col, cex = cex)
-    legend('center', legend = mypkg[i], bty = 'n', cex = textcex, text.col = 'grey')
-    legend('topright', legend = paste0('n = ', sum(nr_down$count[nr_down$package == mypkg[i]], na.rm = TRUE)), bty = 'n', cex = cex)
-    abline(v = from[i], col = 'grey')
-  }
+  par(mar = c(2,6,0.5,0), las = 1)
+  plot(nr_down$date,
+       nr_down$count,
+       xlab = '', ylab = 'Downloads',
+       type = type, pch = pch, col = col, cex = cex)
+  legend('topright', legend = paste0('Total: ', sum(nr_down$count, na.rm = TRUE)), bty = 'n', cex = cex)
+  par(new = TRUE)
+  plot(0:1, 0:1, xlab = '', ylab = '', axes = FALSE, type = 'n')
+  text(0.5, 0.5, mypkg, cex = textcex, col = 'grey')
 }
 
 #' plot a blank figure
@@ -725,6 +720,9 @@ plotcolorbar <- function() {
 }
 
 #' A reminder for lty
+#'
+#' @param mylwd numeric. line width
+#'
 #' @return a figure reminding you lty
 #' @export
 #' @examples
@@ -739,6 +737,9 @@ plotlty <- function(mylwd = 1){
 
 
 #' A reminder for pch
+#'
+#' @param mycex cex
+#'
 #' @return a figure reminding you pch
 #' @export
 #' @examples

@@ -6,6 +6,9 @@
 \usage{
 plotpch(mycex = 5)
 }
+\arguments{
+\item{mycex}{cex}
+}
 \value{
 a figure reminding you pch
 }

@@ -4,9 +4,9 @@
 \alias{plotpkg}
 \title{plot daily download counts of packages}
 \usage{
-plotpkg(mypkg = c("bookdownplus", "mindr", "pinyin", "beginr"), from = c("2017-06-21", 
-    "2017-06-19", "2017-06-19", "2017-06-23"), to = Sys.Date(), type = "o", pch = 19, 
-    col = "blue", cex = 1, textcex = 5)
+plotpkg(mypkg = c("bookdownplus", "mindr", "pinyin", "beginr")[1], 
+    from = c("2017-06-21", "2017-06-19", "2017-06-19", "2017-06-23")[1], 
+    to = Sys.Date(), type = "o", pch = 19, col = "blue", cex = 1, textcex = 5)
 }
 \arguments{
 \item{mypkg}{character vector of package names.}
