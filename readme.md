@@ -21,15 +21,15 @@ devtools::install_github(&quot;pzhaonet/beginr&quot;)</code></pre>
 <h2>Functions as Memos</h2>
 <p>If you often forget the options for <code>pch</code>, <code>lty</code>, <code>type</code>, and <code>col</code> when you <code>plot()</code>, you can run <code>plotpch()</code>, <code>plotlty()</code>, <code>plottype()</code>, <code>plotcolors()</code>, and <code>plotcolorbar()</code>. No need to search the internet any more.</p>
 <pre class="r"><code>beginr::plotpch()</code></pre>
-<p><img src="/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="http://www.pzhao.org/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <pre class="r"><code>beginr::plotlty()</code></pre>
-<p><img src="/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<p><img src="http://www.pzhao.org/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
 <pre class="r"><code>beginr::plottype()</code></pre>
-<p><img src="/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-2-3.png" width="672" /></p>
+<p><img src="http://www.pzhao.org/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-2-3.png" width="672" /></p>
 <pre class="r"><code>beginr::plotcolors()</code></pre>
-<p><img src="/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-2-4.png" width="672" /></p>
+<p><img src="http://www.pzhao.org/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-2-4.png" width="672" /></p>
 <pre class="r"><code>beginr::plotcolorbar()</code></pre>
-<p><img src="/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-2-5.png" width="672" /></p>
+<p><img src="http://www.pzhao.org/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-2-5.png" width="672" /></p>
 </div>
 <div id="functions-for-easy-plotting" class="section level2">
 <h2>Functions for Easy Plotting</h2>
@@ -37,7 +37,7 @@ devtools::install_github(&quot;pzhaonet/beginr&quot;)</code></pre>
 <pre class="r"><code>x &lt;- 1:10
 y &lt;- 1:10 + rnorm(10)
 beginr::plotlm(x, y)</code></pre>
-<p><img src="/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="http://www.pzhao.org/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <pre><code>## [[1]]
 ##               Estimate Std. Error   t value     Pr(&gt;|t|)
 ## (Intercept) -0.8826021 0.59514844 -1.482995 1.763634e-01
@@ -48,7 +48,7 @@ beginr::plotlm(x, y)</code></pre>
 <p>If you want to display the distribution of a data-set, use <code>plothist()</code>, which gives you a histogram with markers of the median, mean, quantiles, standard deviation, sample number and the skewness.</p>
 <pre class="r"><code>x &lt;- rnorm(10000)
 beginr::plothist(x)</code></pre>
-<p><img src="/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="http://www.pzhao.org/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <pre><code>##     para         value
 ## 1    min -3.9594329262
 ## 2     1q -0.6743155802
@@ -62,26 +62,26 @@ beginr::plothist(x)</code></pre>
 <p>I like <code>pairs()</code>, and ‘beginr’ gives more powerful features to <code>plotpairs()</code> and <code>plotpairs2()</code>.</p>
 <pre class="r"><code>df &lt;- data.frame(a = 1:10, b = 1:10 + rnorm(10), c = 1:10 + rnorm(10))
 beginr::plotpairs(df)</code></pre>
-<p><img src="/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="http://www.pzhao.org/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <pre class="r"><code>beginr::plotpairs2(df)</code></pre>
 <pre><code>## [1] &quot;p&lt;0.01&quot;</code></pre>
 <pre><code>## [1] &quot;p&lt;0.01&quot;</code></pre>
 <pre><code>## [1] &quot;p&lt;0.01&quot;</code></pre>
-<p><img src="/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<p><img src="http://www.pzhao.org/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
 <p>I often have to plot one independent variable (x) and multiple dependent variables (y<sub>1</sub>, y<sub>2</sub>, …, y<sub>n</sub>) in one 2-D coordinate system, or one dependent variable (y) against multiple independent variables (x<sub>1</sub>, x<sub>2</sub>, …, x<sub>n</sub>) with their error bars. Use <code>dfplot()</code> or <code>dfplot2()</code> in ‘beginr’.</p>
 <pre class="r"><code>x &lt;- seq(0, 2 * pi, length.out = 100)
 y &lt;- data.frame(sin(x), cos(x))
 yerror &lt;- data.frame(abs(rnorm(100, sd = 0.3)), abs(rnorm(100, sd = 0.1)))
 beginr::dfplot(x, y, yerror = yerror)</code></pre>
-<p><img src="/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="http://www.pzhao.org/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <pre class="r"><code>beginr::dfplot2(y, x, xerror = yerror)</code></pre>
-<p><img src="/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
+<p><img src="http://www.pzhao.org/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
 <p>If you would like to add errorbars only, then use <code>errorbar()</code>.</p>
 <pre class="r"><code>x &lt;- seq(0, 2 * pi, length.out = 100)
 y &lt;- sin(x)
 plot(x, y, type = &quot;l&quot;)
 beginr::errorbar(x, y, yupper = 0.1, ylower = 0.1)</code></pre>
-<p><img src="/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="http://www.pzhao.org/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 <div id="functions-for-data-frames" class="section level2">
 <h2>Functions for Data Frames</h2>
@@ -150,7 +150,7 @@ beginr::list2ascii(alist)</code></pre>
 ## }</code></pre>
 <p><code>plotpkg()</code> displays a figure showing the downloads of packages.</p>
 <pre class="r"><code>beginr::plotpkg(&quot;beginr&quot;, from = &quot;2017-06-23&quot;)</code></pre>
-<p><img src="/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="http://www.pzhao.org/post/2017-06-23-beginr_released.en_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p><code>rpkg()</code> creates a new R package in an easy way.</p>
 <pre class="r"><code>beginr::rpkg()</code></pre>
 </div>
