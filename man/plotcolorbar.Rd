@@ -2,7 +2,7 @@
 % Please edit documentation in R/foo.R
 \name{plotcolorbar}
 \alias{plotcolorbar}
-\title{A reminder for color bars}
+\title{A reminder for color bars. More palettes can be found in 'colormap', 'RColorBrewer', and 'dichromat' packages.}
 \usage{
 plotcolorbar()
 }
@@ -10,7 +10,7 @@ plotcolorbar()
 a figure
 }
 \description{
-A reminder for color bars
+A reminder for color bars. More palettes can be found in 'colormap', 'RColorBrewer', and 'dichromat' packages.
 }
 \examples{
 plotcolorbar()

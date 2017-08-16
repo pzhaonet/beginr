@@ -4,10 +4,11 @@
 \alias{plothist}
 \title{Plot a user-customized hist}
 \usage{
-plothist(data, mybreaks = "Sturges", myxlim = NULL, myylim = NULL, eightlines = TRUE, 
-    eightdigit = 0, eightcex = 0.8, eightcolors = c("red", "darkgreen", "blue", "black", 
-        "purple", "gold")[c(1, 2, 3, 2, 1, 6, 6, 5, 4, 5)], mylegend = "", myxlab = "", 
-    show_n = TRUE, show_skewness = TRUE, show_density = FALSE)
+plothist(data = rnorm(1000), mybreaks = "Sturges", myxlim = NULL, myylim = NULL, 
+    eightlines = TRUE, eightdigit = 0, eightcex = 0.8, eightcolors = c("red", 
+        "darkgreen", "blue", "black", "purple", "gold")[c(1, 2, 3, 2, 1, 6, 6, 
+        5, 4, 5)], mylegend = "", myxlab = "", return_df = FALSE, show_n = TRUE, 
+    show_skewness = TRUE, show_density = FALSE, show_normline = FALSE)
 }
 \arguments{
 \item{data}{a numeric vector}
@@ -30,11 +31,15 @@ plothist(data, mybreaks = "Sturges", myxlim = NULL, myylim = NULL, eightlines = 
 
 \item{myxlab}{character}
 
+\item{return_df}{logic}
+
 \item{show_n}{logical}
 
 \item{show_skewness}{logical}
 
 \item{show_density}{logcial}
+
+\item{normline}{logical}
 }
 \value{
 a hist plot

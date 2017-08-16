@@ -16,7 +16,7 @@ bib <- function(pkg = c('base'), bibfile = ''){
   pkg <- unique(pkg[order(pkg)])
   for (i in pkg){
     if (class(try(citation(i))) == 'try-error') {
-      message(paste(i, 'has not been installed yet. Please install it and run again.'))
+      message(paste('Warning! The bib entry of', i, 'is not included because of some unexpected problems. Please check whether', i, 'has been installed. If not, please install it first. Otherwise, it might be caused by other problems.'))
     } else {
       cti <- toBibtex(citation(i))
       entryloc <- grep(pattern = '^@', cti)
@@ -231,12 +231,14 @@ errorbar <- function(x, y, xupper = NULL, xlower = NULL, yupper = NULL, ylower =
 #' @param mybreaks character
 #' @param myxlim numeric
 #' @param myylim numeric
+#' @param normline logical
 #' @param eightlines logical
 #' @param eightdigit numeric
 #' @param eightcex numeric
 #' @param eightcolors colors
 #' @param mylegend character
 #' @param myxlab character
+#' @param return_df logic
 #' @param show_n logical
 #' @param show_skewness logical
 #' @param show_density logcial
@@ -244,10 +246,11 @@ errorbar <- function(x, y, xupper = NULL, xlower = NULL, yupper = NULL, ylower =
 #' @export
 #' @examples
 #' plothist(rnorm(10000))
-plothist <- function(data, mybreaks = "Sturges", myxlim = NULL, myylim = NULL,
+plothist <- function(data = rnorm(1000), mybreaks = "Sturges", myxlim = NULL, myylim = NULL,
                      eightlines = TRUE, eightdigit = 0, eightcex = 0.8, eightcolors = c('red','darkgreen','blue', 'black', 'purple', 'gold')[c(1,2,3,2,1,6,6,5,4,5)],
                      mylegend = '', myxlab = '',
-                     show_n = TRUE, show_skewness = TRUE, show_density = FALSE) {
+                     return_df = FALSE,
+                     show_n = TRUE, show_skewness = TRUE, show_density = FALSE, show_normline = FALSE) {
   mf_skewness <- function(x){
     x <- x[!is.na(x)]
     n <- length(x)
@@ -262,12 +265,14 @@ plothist <- function(data, mybreaks = "Sturges", myxlim = NULL, myylim = NULL,
     hist(data, col = 'grey', border = NA, main = '', freq = FALSE, breaks = mybreaks, xlab = myxlab, xlim = myxlim, ylim = myylim)#, axes = FALSE, breaks = mybreaks)
   }
   if (show_density) lines(density(data[!is.na(data)], bw = "SJ"))
+  if (show_normline) curve(dnorm(x, mean = mean(data, na.rm = TRUE), sd(data, na.rm = TRUE)), add=TRUE, col = 'purple')
   rug(data, col = 'darkgrey')
   legend('topleft', bty = 'n', legend = mylegend)
+  myskew <- mf_skewness(data)
   legend(
     'topright', bty = 'n',
-    legend = paste(ifelse(show_n, paste('n = ', sum(!is.na(data)), '\n', sep = ''), ''),
-                   ifelse(show_skewness, paste('skewness = ', round(mf_skewness(data), 2), sep = ''), ''),
+    legend = paste(ifelse(show_n, paste0('n = ', sum(!is.na(data)), '\n'), ''),
+                   ifelse(show_skewness, paste0('skewness = ', round(myskew, 2), ifelse(myskew > 1.96 | myskew < -1.96, '', '(*)')), ''),
                    sep = '')
   )
   if (eightlines) {
@@ -283,8 +288,8 @@ plothist <- function(data, mybreaks = "Sturges", myxlim = NULL, myylim = NULL,
   }
   box()
   # return(c(myfive, threshold, mymean, mysd))
-  return(data.frame(para = c('min', '1q', 'median', '3q', 'max', 'lower', 'upper', 'mean', 'sd'),
-                    value =c(myfive, myfive[2] - threshold, myfive[4] + threshold, mymean, mysd)))
+  if (return_df)  return(data.frame(para = c('min', '1q', 'median', '3q', 'max', 'lower', 'upper', 'mean', 'sd'),
+                                    value =c(myfive, myfive[2] - threshold, myfive[4] + threshold, mymean, mysd)))
 }
 
 #' Save a list into an ASCII file. in: a list. out: a file.
@@ -605,7 +610,7 @@ plotpkg <- function(mypkg = c('bookdownplus', 'mindr', 'pinyin', 'beginr')[1],
   to <- as.Date(to)
   nr_down <- cranlogs::cran_downloads(packages = mypkg, from = from, to = to)
   nr_down$count[nr_down$count == 0] <- NA
-  Sys.setlocale("LC_ALL","English")
+  # Sys.setlocale("LC_ALL","English")
   par(mar = c(2,6,0.5,0), las = 1)
   plot(nr_down$date,
        nr_down$count,
@@ -689,7 +694,7 @@ plotcolors <- function(){
   par(oldpar)
 }
 
-#' A reminder for color bars
+#' A reminder for color bars. More palettes can be found in 'colormap', 'RColorBrewer', and 'dichromat' packages.
 #'
 #' @return a figure
 #' @export
