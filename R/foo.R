@@ -15,7 +15,7 @@
 bib <- function(pkg = c('base'), bibfile = ''){
   pkg <- unique(pkg[order(pkg)])
   for (i in pkg){
-    if (class(try(citation(i))) == 'try-error') {
+    if (inherits(try(citation(i)), 'try-error', TRUE)) {
       message(paste('Warning! The bib entry of', i, 'is not included because of some unexpected problems. Please check whether', i, 'has been installed. If not, please install it first. Otherwise, it might be caused by other problems.'))
     } else {
       cti <- toBibtex(citation(i))
@@ -154,7 +154,7 @@ dfplot2 <- function(x, y,
                     yerror = NULL,
                     mycolerrorbar = NULL,
                     mylegend = NULL) {
-  par(las=1)
+  oldpar <- par(las=1); on.exit(par(oldpar))
   x <- as.data.frame(x)
   plot(x[, 1], y,
        xlab = xlab, ylab = ylab,
@@ -611,7 +611,7 @@ plotpkg <- function(mypkg = c('bookdownplus', 'mindr', 'pinyin', 'beginr')[1],
   nr_down <- cranlogs::cran_downloads(packages = mypkg, from = from, to = to)
   nr_down$count[nr_down$count == 0] <- NA
   # Sys.setlocale("LC_ALL","English")
-  par(mar = c(2,6,0.5,0), las = 1)
+  oldpar <- par(mar = c(2,6,0.5,0), las = 1); on.exit(par(oldpar))
   plot(nr_down$date,
        nr_down$count,
        xlab = '', ylab = 'Downloads',
@@ -702,7 +702,7 @@ plotcolors <- function(){
 #' @examples plotcolorbar()
 plotcolorbar <- function() {
   mycex <- 3
-  par(mfrow = c(7, 1), mar = c(2,0,0,0))
+  oldpar <- par(mfrow = c(7, 1), mar = c(2,0,0,0)); on.exit(par(oldpar))
   colorbar <- function(myfunction) {
     barplot(rep(1,100), col= get(myfunction)(100)[1:100], yaxt = 'n', border = NA, space = 0)
     legend('center', legend = paste0(myfunction, '(n)'), bty = 'n', cex = mycex)
@@ -765,7 +765,7 @@ plotpch <- function(mycex = 5){
 #' plottype()
 #'
 plottype <- function(){
-  par(mfrow = c(3,3), cex = 1.2, mar = c(0, 0, 0, 0))
+  oldpar <- par(mfrow = c(3,3), cex = 1.2, mar = c(0, 0, 0, 0)); on.exit(par(oldpar))
   y <- rnorm(n = 6)
   for (i in c("p", 'l', "b", "c", "o", "h", "s", "S", "n")) {
     plot(x= 1:6, y,  type = i, axes = FALSE, cex = 1.5)

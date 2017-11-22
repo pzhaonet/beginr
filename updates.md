@@ -1,5 +1,6 @@
 ## Updates
 
+- 2017-11-22. **v0.1.2**. Bugs fixed.
 - 2017-08-16. **v0.1.1**. Bugs fixed. `plothist()` improved.
 - 2017-07-19. **v0.1.0**. Updated on CRAN. See the [release note](https://github.com/pzhaonet/beginr/releases/tag/v0.1).
 - 2017-07-04. **v0.0.3**. Two more functions: `plotcolorbar()` and `plotpkg()`.
