@@ -9,7 +9,7 @@
 #' bib()
 #' bib(pkg = c('mindr', 'bookdownplus', 'pinyin'))
 #' @importFrom grDevices col2rgb colors rainbow rgb rgb2hsv gray hcl
-#' @importFrom graphics abline arrows axis box hist legend lines mtext pairs panel.smooth par plot points polygon rect rug strwidth text barplot
+#' @importFrom graphics abline arrows axis box hist legend lines mtext pairs panel.smooth par plot points polygon rect rug strwidth text barplot curve
 #' @importFrom stats IQR cor cor.test density dnorm fivenum lm rnorm sd
 #' @importFrom utils citation read.table toBibtex write.csv unzip
 bib <- function(pkg = c('base'), bibfile = ''){
@@ -84,10 +84,14 @@ dfplot <- function(x, y,
                    legendpos = 'top') {
   y <- as.data.frame(y)
   if (is.null(ylim)) ylim <- range(y, na.rm = TRUE)
-  if (add == FALSE) {
-    plot(x, y[, 1],
-         xlab = xlab, ylab = ylab,
-         axes = myaxes, xlim = xlim, ylim = ylim, type = 'n', cex = mycex, lty = ifelse(is.null(mylty), 1, mylty[1]))
+  if (length(add) == 1) {
+    if (add == FALSE) {
+      plot(x, y[, 1],
+           xlab = xlab, ylab = ylab,
+           axes = myaxes, xlim = xlim, ylim = ylim, type = 'n', cex = mycex, lty = ifelse(is.null(mylty), 1, mylty[1]))
+    }
+  } else {
+    message('"add = " must have a length = 1.')
   }
   # ny <- ifelse(is.data.frame(y), dim(y)[2], 1)
   ny <- ncol(y)
@@ -97,6 +101,7 @@ dfplot <- function(x, y,
   if (is.null(mylty)) {
     mylty <- rep(1, ny)
   }
+
   if (is.null(mycolerrorbar)) {
     mycolerrorbar <- rainbow(ny, alpha =  0.5)
   }
@@ -225,13 +230,28 @@ errorbar <- function(x, y, xupper = NULL, xlower = NULL, yupper = NULL, ylower =
   }
 }
 
+#' Calculate the skewness of a distribution
+#'
+#' @param x the data to check
+#'
+#' @return the skewness of the distribution of x
+#' @export
+#'
+#' @examples mf_skewness(rnorm(100))
+mf_skewness <- function(x){
+  x <- x[!is.na(x)]
+  n <- length(x)
+  skewness <- n / (n-1) / (n-2) * sum((x - mean(x)) ^ 3) / sd(x) ^3
+  se_skewness <- sqrt(6/length(x))
+  return(skewness/se_skewness)
+}
 
 #' Plot a user-customized hist
 #' @param data a numeric vector
 #' @param mybreaks character
 #' @param myxlim numeric
 #' @param myylim numeric
-#' @param normline logical
+#' @param show_normline logical
 #' @param eightlines logical
 #' @param eightdigit numeric
 #' @param eightcex numeric
@@ -242,6 +262,7 @@ errorbar <- function(x, y, xupper = NULL, xlower = NULL, yupper = NULL, ylower =
 #' @param show_n logical
 #' @param show_skewness logical
 #' @param show_density logcial
+#' @param x a vector for plotting the curve
 #' @return a hist plot
 #' @export
 #' @examples
@@ -250,22 +271,26 @@ plothist <- function(data = rnorm(1000), mybreaks = "Sturges", myxlim = NULL, my
                      eightlines = TRUE, eightdigit = 0, eightcex = 0.8, eightcolors = c('red','darkgreen','blue', 'black', 'purple', 'gold')[c(1,2,3,2,1,6,6,5,4,5)],
                      mylegend = '', myxlab = '',
                      return_df = FALSE,
-                     show_n = TRUE, show_skewness = TRUE, show_density = FALSE, show_normline = FALSE) {
-  mf_skewness <- function(x){
-    x <- x[!is.na(x)]
-    n <- length(x)
-    skewness <- n / (n-1) / (n-2) * sum((x - mean(x)) ^ 3) / sd(x) ^3
-    se_skewness <- sqrt(6/length(x))
-    return(skewness/se_skewness)
-  }
+                     show_n = TRUE, show_skewness = TRUE, show_density = FALSE, show_normline = FALSE, x) {
   if (is.null(myylim)) myylim <- c(0, max(hist(data, breaks = mybreaks, plot = FALSE)$density) * 1.1)
   if (is.null(myxlim)) {
     hist(data, col = 'grey', border = NA, main = '', freq = FALSE, breaks = mybreaks, xlab = myxlab, ylim = myylim)#, axes = FALSE, breaks = mybreaks)
   } else {
     hist(data, col = 'grey', border = NA, main = '', freq = FALSE, breaks = mybreaks, xlab = myxlab, xlim = myxlim, ylim = myylim)#, axes = FALSE, breaks = mybreaks)
   }
-  if (show_density) lines(density(data[!is.na(data)], bw = "SJ"))
-  if (show_normline) curve(dnorm(x, mean = mean(data, na.rm = TRUE), sd(data, na.rm = TRUE)), add=TRUE, col = 'purple')
+  if (length(show_density) == 1){
+    if (show_density) lines(density(data[!is.na(data)], bw = "SJ"))
+  } else {
+    message('"show_density = " must have a length = 1.')
+  }
+
+  if (length(show_normline) == 1){
+    if (show_normline) curve(dnorm(x, mean = mean(data, na.rm = TRUE), sd(data, na.rm = TRUE)), add=TRUE, col = 'purple')
+
+  } else {
+    message('one of the parameters must have a length = 1.')
+  }
+
   rug(data, col = 'darkgrey')
   legend('topleft', bty = 'n', legend = mylegend)
   myskew <- mf_skewness(data)
@@ -275,21 +300,31 @@ plothist <- function(data = rnorm(1000), mybreaks = "Sturges", myxlim = NULL, my
                    ifelse(show_skewness, paste0('skewness = ', round(myskew, 2), ifelse(myskew > 1.96 | myskew < -1.96, '', '(*)')), ''),
                    sep = '')
   )
-  if (eightlines) {
-    myfive <- fivenum(data)
-    threshold <- IQR(data, na.rm = TRUE) * 1.5
-    abline(v = c(myfive, myfive[2] - threshold, myfive[4] + threshold), col = eightcolors[1:7])
-    mtext(text = round(myfive, eightdigit), side = 3, line = c(0, 1, 0, 1, 0), at = myfive, col = eightcolors[1:5], cex = eightcex)
-    # mtext(text = round(myfive[c(1, 3, 5)], eightdigit), side = 3, line = 0, at = myfive[c(1, 3, 5)], col = eightcolors[c(1, 3, 5)], cex = eightcex)
-    # mtext(text = round(myfive[c(2, 4)], eightdigit), side = 3, line = 1, at = myfive[c(2, 4)], col = eightcolors[c(3, 5)], cex = eightcex)
-    mymean <- mean(data, na.rm = TRUE)
-    mysd <- sd(data, na.rm = TRUE)
-    abline(v = seq(from = mymean - mysd, by = mysd, length.out = 3), col = eightcolors[8:10], lty = 2)
+
+  if (length(eightlines) == 1){
+    if (eightlines) {
+      myfive <- fivenum(data)
+      threshold <- IQR(data, na.rm = TRUE) * 1.5
+      abline(v = c(myfive, myfive[2] - threshold, myfive[4] + threshold), col = eightcolors[1:7])
+      mtext(text = round(myfive, eightdigit), side = 3, line = c(0, 1, 0, 1, 0), at = myfive, col = eightcolors[1:5], cex = eightcex)
+      # mtext(text = round(myfive[c(1, 3, 5)], eightdigit), side = 3, line = 0, at = myfive[c(1, 3, 5)], col = eightcolors[c(1, 3, 5)], cex = eightcex)
+      # mtext(text = round(myfive[c(2, 4)], eightdigit), side = 3, line = 1, at = myfive[c(2, 4)], col = eightcolors[c(3, 5)], cex = eightcex)
+      mymean <- mean(data, na.rm = TRUE)
+      mysd <- sd(data, na.rm = TRUE)
+      abline(v = seq(from = mymean - mysd, by = mysd, length.out = 3), col = eightcolors[8:10], lty = 2)
+    }
+  } else {
+    message('one of the parameters must have a length = 1.')
   }
+
   box()
   # return(c(myfive, threshold, mymean, mysd))
-  if (return_df)  return(data.frame(para = c('min', '1q', 'median', '3q', 'max', 'lower', 'upper', 'mean', 'sd'),
-                                    value =c(myfive, myfive[2] - threshold, myfive[4] + threshold, mymean, mysd)))
+  if (length(return_df) == 1){
+    if (return_df)  return(data.frame(para = c('min', '1q', 'median', '3q', 'max', 'lower', 'upper', 'mean', 'sd'),
+                                      value =c(myfive, myfive[2] - threshold, myfive[4] + threshold, mymean, mysd)))
+  } else {
+    message('one of the parameters must have a length = 1.')
+  }
 }
 
 #' Save a list into an ASCII file. in: a list. out: a file.
@@ -350,7 +385,12 @@ plotlm <- function(x, y,
   a <- signif(lm.my$coefficients[2], 3)
 
   abline(lm.my, col = "black", lwd = 2)
-  if (refline) abline(a = intercept, b = slope, col = 'blue', lty = 2)
+  if (length(refline) == 1){
+    if (refline) abline(a = intercept, b = slope, col = 'blue', lty = 2)
+  } else {
+    message('one of the parameters must have a length = 1.')
+  }
+
   text(xlim[1],
        ylim[2] - diff(ylim) * 0.1,
        # substitute(paste(italic(y), ' = ', a, italic(x), ' + ', b), list(a = a, b = b)),
@@ -361,12 +401,21 @@ plotlm <- function(x, y,
        # expression(italic(R)^2==r, list(r = lm.rs)),
        as.expression(substitute(italic(n)==r, list(r = length(x)))),
        cex = 1.2, pos = 4)
-  if (showr2)  text(xlim[1],
-                    ylim[2]- diff(ylim)* 0.3,
-                    # expression(italic(R)^2==r, list(r = lm.rs)),
-                    as.expression(substitute(italic(R)^2==r, list(r = lm.rs))),
-                    cex = 1.2, pos = 4)
-  if (showleg) legend('bottomright', legend = c('data', 'linear', '1:1'), col = c('darkgrey', 'black', 'blue'), pch = c(19, -1, -1), lty = c(0, 1, 2), bty = 'n')
+  if (length(showr2) == 1){
+    if (showr2)  text(xlim[1],
+                      ylim[2]- diff(ylim)* 0.3,
+                      # expression(italic(R)^2==r, list(r = lm.rs)),
+                      as.expression(substitute(italic(R)^2==r, list(r = lm.rs))),
+                      cex = 1.2, pos = 4)
+  } else {
+    message('one of the parameters must have a length = 1.')
+  }
+  if (length(showleg) == 1){
+    if (showleg) legend('bottomright', legend = c('data', 'linear', '1:1'), col = c('darkgrey', 'black', 'blue'), pch = c(19, -1, -1), lty = c(0, 1, 2), bty = 'n')
+  } else {
+    message('one of the parameters must have a length = 1.')
+  }
+
   return(list(lm.sum$coefficients, lm.sum$r.squared))
 }
 
@@ -391,13 +440,18 @@ lmdf <- function(data, simply = FALSE, intercept = TRUE){
     for (j in (ifelse(simply, i + 1, 1)): ncol){
       if (j!=i) {
         y <- data[, j]
-        if (intercept) {
-          lm.my <- lm(y ~ x)
-          outputcol <- c('x', 'y', 'r.squared', 'adj.r.squared', 'intercept', 'slope', 'Std.Error.intercept', 'Std.Error.slope', 't.intercept', 't.slope', 'Pr.intercept', 'Pr.slope')
+        if (length(intercept) == 1){
+          if (intercept) {
+            lm.my <- lm(y ~ x)
+            outputcol <- c('x', 'y', 'r.squared', 'adj.r.squared', 'intercept', 'slope', 'Std.Error.intercept', 'Std.Error.slope', 't.intercept', 't.slope', 'Pr.intercept', 'Pr.slope')
+          } else {
+            lm.my <- lm(y ~ x + 0)
+            outputcol <- c('x', 'y', 'r.squared', 'adj.r.squared', 'slope', 'Std.Error.slope', 't.slope', 'Pr.slope')
+          }
         } else {
-          lm.my <- lm(y ~ x + 0)
-          outputcol <- c('x', 'y', 'r.squared', 'adj.r.squared', 'slope', 'Std.Error.slope', 't.slope', 'Pr.slope')
+          message('one of the parameters must have a length = 1.')
         }
+
         lm.sum <- summary(lm.my)
         output <- rbind(output, rep(NA, length(outputcol)))
         output[k, 1:2] <- names(data)[c(i,j)]
@@ -597,7 +651,7 @@ plotpairs2 <- function(data, lower.panel=panel.smooth, upper.panel=panel.cor, di
 #' @return a figure
 #' @export
 #'
-#' @examples plotpkg()
+#' @examples plotpkg(mypkg = 'rmarkdown')
 plotpkg <- function(mypkg = c('bookdownplus', 'mindr', 'pinyin', 'beginr')[1],
                     from = c('2017-06-21', '2017-06-19', '2017-06-19', '2017-06-23')[1],
                     to = Sys.Date(),
@@ -608,18 +662,22 @@ plotpkg <- function(mypkg = c('bookdownplus', 'mindr', 'pinyin', 'beginr')[1],
                     textcex = 5){
   from <- as.Date(from)
   to <- as.Date(to)
-  nr_down <- cranlogs::cran_downloads(packages = mypkg, from = from, to = to)
-  nr_down$count[nr_down$count == 0] <- NA
-  # Sys.setlocale("LC_ALL","English")
-  oldpar <- par(mar = c(2,6,0.5,0), las = 1); on.exit(par(oldpar))
-  plot(nr_down$date,
-       nr_down$count,
-       xlab = '', ylab = 'Downloads',
-       type = type, pch = pch, col = col, cex = cex)
-  legend('topright', legend = paste0('Total: ', sum(nr_down$count, na.rm = TRUE)), bty = 'n', cex = cex)
-  par(new = TRUE)
-  plot(0:1, 0:1, xlab = '', ylab = '', axes = FALSE, type = 'n')
-  text(0.5, 0.5, mypkg, cex = textcex, col = 'grey')
+  if (class(try(cranlogs::cran_downloads(packages = mypkg, from = from, to = to))) != 'try-error') {
+    nr_down <- cranlogs::cran_downloads(packages = mypkg, from = from, to = to)
+    nr_down$count[nr_down$count == 0] <- NA
+    # Sys.setlocale("LC_ALL","English")
+    oldpar <- par(mar = c(2,6,0.5,0), las = 1); on.exit(par(oldpar))
+    plot(nr_down$date,
+         nr_down$count,
+         xlab = '', ylab = 'Downloads',
+         type = type, pch = pch, col = col, cex = cex)
+    legend('topright', legend = paste0('Total: ', sum(nr_down$count, na.rm = TRUE)), bty = 'n', cex = cex)
+    par(new = TRUE)
+    plot(0:1, 0:1, xlab = '', ylab = '', axes = FALSE, type = 'n')
+    text(0.5, 0.5, mypkg, cex = textcex, col = 'grey')
+  } else {
+    message('The server is unavailable. Please try later.')
+  }
 }
 
 #' plot a blank figure

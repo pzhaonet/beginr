@@ -32,5 +32,5 @@ a figure
 plot daily download counts of packages
 }
 \examples{
-plotpkg()
+plotpkg(mypkg = "rmarkdown")
 }
