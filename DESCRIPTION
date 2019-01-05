@@ -1,6 +1,6 @@
 Package: beginr
-Version: 0.1.3
-Date: 2018-06-12
+Version: 0.1.4
+Date: 2019-01-05
 Title: Functions for R Beginners
 Author: Peng Zhao
 Maintainer: Peng Zhao <pzhao@pzhao.net>
@@ -13,5 +13,5 @@ License: MIT + file LICENSE
 URL: https://github.com/pzhaonet/beginr
 BugReports: https://github.com/pzhaonet/beginr/issues
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 NeedsCompilation: no

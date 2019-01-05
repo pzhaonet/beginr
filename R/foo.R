@@ -377,7 +377,7 @@ plotlm <- function(x, y,
                    showleg = TRUE){
   x <- as.numeric(x)
   y <- as.numeric(y)
-  plot(x, y, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, col = "grey", pch = 19)
+  plot(x, y, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, col = "grey", pch = 19, main = plot.title)
   lm.my <- lm(y ~ x)
   lm.sum <- summary(lm.my)
   lm.rs <- round(lm.sum$r.squared, digits = 3)
@@ -835,24 +835,47 @@ plottype <- function(){
 
 #' Read multiple tables into a list.
 #'
-#' @param sep sep of each file
+#' @param sep the field separator character.
 #' @param mydir the folder path
+#' @param output the type of the output. 'list' or 'data.frame'.
+#' @param header logical. Indicating whether the file contains the names of the variables as its first line.
+#' @param skip the number of lines of the data file to skip before beginning to read data.
 #'
-#' @return a list
+#' @return a list or a data frame
 #' @export
 #'
-readdir <- function(mydir = getwd(), sep = c(","))
+readdir <- function(mydir = getwd(), sep = c(","), output = c('list', 'data.frame'), header = TRUE, skip = 0)
 {
   x <- dir(mydir, full.names = TRUE)
-  y <- list()
-  for (i in 1:length(x)) {
-    y[[as.character(i)]] <-
-      read.table(x[i],
-                 header = TRUE,
+  x_name <- dir(mydir)
+  sep <- rep_len(sep, length(x))
+  output <- match.arg(output)
+  if(output == 'list'){
+    y <- list()
+    for (i in 1:length(x)) {
+      y[[x_name[i]]] <-
+        read.table(x[i],
+                   header = header,
+                   sep = sep[i],
+                   fill = TRUE,
+                   na.strings = c("Inf","-Inf","NA", "NaN"),
+                   stringsAsFactors = FALSE,
+                   skip = skip)
+    }
+  }
+  if(output == 'data.frame'){
+    y <- data.frame()
+    for (i in 1:length(x)) {
+      newy <- read.table(x[i],
+                 header = header,
                  sep = sep[i],
                  fill = TRUE,
                  na.strings = c("Inf","-Inf","NA", "NaN"),
-                 stringsAsFactors = FALSE)
+                 stringsAsFactors = FALSE,
+                 skip = skip)
+      newy$filename <- x_name[i]
+      y <- rbind(y, newy)
+    }
   }
   return(y)
 }

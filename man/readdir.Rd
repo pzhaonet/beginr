@@ -4,15 +4,22 @@
 \alias{readdir}
 \title{Read multiple tables into a list.}
 \usage{
-readdir(mydir = getwd(), sep = c(","))
+readdir(mydir = getwd(), sep = c(","), output = c("list", "data.frame"), header = TRUE, 
+    skip = 0)
 }
 \arguments{
 \item{mydir}{the folder path}
 
-\item{sep}{sep of each file}
+\item{sep}{the field separator character.}
+
+\item{output}{the type of the output. 'list' or 'data.frame'.}
+
+\item{header}{logical. Indicating whether the file contains the names of the variables as its first line.}
+
+\item{skip}{the number of lines of the data file to skip before beginning to read data.}
 }
 \value{
-a list
+a list or a data frame
 }
 \description{
 Read multiple tables into a list.
