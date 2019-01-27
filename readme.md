@@ -157,6 +157,8 @@ beginr::list2ascii(alist)</code></pre>
 
 ## Updates
 
+- 2019-01-25. **v0.1.5**. New function `packr()`.
+- 2019-01-05. **v0.1.4**. Enhanced `readdir()`.
 - 2018-06-12. **v0.1.3**. the condition length in 'if()' was checked.
 - 2017-11-22. **v0.1.2**. Bugs fixed.
 - 2017-08-16. **v0.1.1**. Bugs fixed. `plothist()` improved.

@@ -1,0 +1,15 @@
+Package: rmd
+Version: 0.0.1
+Date: 2018-12-15
+Title: Easily Install and Load a Group of R rmd Packages
+Author: author
+Maintainer: author <packr@pzhao.net>
+Depends: R (>= 3.1.0)
+Imports: magrittr, crayon, utils, rstudioapi, purrr, tibble, tools, cli, dplyr, grDevices
+Suggests:
+Description: The 'rmd' package is a packages manager designed to easily install and load multiple related R packages in a single step. 
+License: MIT + file LICENSE
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
+NeedsCompilation: no
+LazyData: true
