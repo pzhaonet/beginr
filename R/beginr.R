@@ -652,8 +652,8 @@ plotpairs2 <- function(data, lower.panel=panel.smooth, upper.panel=panel.cor, di
 #' @export
 #'
 #' @examples plotpkg(mypkg = 'rmarkdown')
-plotpkg <- function(mypkg = c('bookdownplus', 'mindr', 'pinyin', 'beginr')[1],
-                    from = c('2017-06-21', '2017-06-19', '2017-06-19', '2017-06-23')[1],
+plotpkg <- function(mypkg = 'bookdownplus',
+                    from = Sys.Date() - 30,
                     to = Sys.Date(),
                     type = 'o',
                     pch = 19,
@@ -664,11 +664,12 @@ plotpkg <- function(mypkg = c('bookdownplus', 'mindr', 'pinyin', 'beginr')[1],
   to <- as.Date(to)
   if (class(try(cranlogs::cran_downloads(packages = mypkg, from = from, to = to))) != 'try-error') {
     nr_down <- cranlogs::cran_downloads(packages = mypkg, from = from, to = to)
-    nr_down$count[nr_down$count == 0] <- NA
+    # nr_down$count[nr_down$count == 0] <- NA
+    nr_down$sum <- cumsum(nr_down$count)
     # Sys.setlocale("LC_ALL","English")
     oldpar <- par(mar = c(2,6,0.5,0), las = 1); on.exit(par(oldpar))
     plot(nr_down$date,
-         nr_down$count,
+         nr_down$sum,
          xlab = '', ylab = 'Downloads',
          type = type, pch = pch, col = col, cex = cex)
     legend('topright', legend = paste0('Total: ', sum(nr_down$count, na.rm = TRUE)), bty = 'n', cex = cex)

@@ -168,6 +168,11 @@ beginr::list2ascii(alist)</code></pre>
 - 2017-06-23. **v0.0.1**. Released on [CRAN](https://cran.r-project.org/web/packages/beginr/).
 - 2017-06-22. **v0.0.0**. Preliminary.
 
+## To do
+
+- created a universal RStudio addin like rmd::rmdAddin() for agroup of packages.
+
+
 <div id="references" class="section level1 unnumbered">
 <h1>References</h1>
 <div id="refs" class="references">
