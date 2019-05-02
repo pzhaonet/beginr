@@ -918,32 +918,67 @@ se <- function(x, na.rm = TRUE) {
 #' @return a dataframe
 #' @export
 #'
+# tapplydf <- function(data, select = names(data), myfactor, ..., na.rm = c(TRUE, FALSE, NULL)[1])
+# {
+#   if (is.null(na.rm)) {
+#     y <- data.frame(tapply(data[, select[1]], data[, myfactor],...))
+#   } else {
+#     y <- data.frame(tapply(data[, select[1]], data[, myfactor],..., na.rm = na.rm))
+#   }
+#   names(y) <- select[1]
+#   y[, myfactor] <- rownames(y)
+#   y <- y[, c(2,1)]
+#   if (length(select) > 1){
+#     for (i in select[-1]){
+#       if (is.null(na.rm)) {
+#         yi <- data.frame(tapply(data[, i], data[, myfactor],...))
+#       } else {
+#         yi <- data.frame(tapply(data[, i], data[, myfactor],..., na.rm = na.rm))
+#       }
+#       names(yi) <- i
+#       yi[, myfactor] <- rownames(yi)
+#       y <- merge(y, yi, by = myfactor)
+#
+#     }
+#   }
+#   return(y)
+# }
 tapplydf <- function(data, select = names(data), myfactor, ..., na.rm = c(TRUE, FALSE, NULL)[1])
 {
-  if (is.null(na.rm)) {
-    y <- data.frame(tapply(data[, select[1]], data[, myfactor],...))
-  } else {
-    y <- data.frame(tapply(data[, select[1]], data[, myfactor],..., na.rm = na.rm))
-  }
-  names(y) <- select[1]
-  y[, myfactor] <- rownames(y)
-  y <- y[, c(2,1)]
+  y <- tapply2(data, select[1], myfactor, ..., na.rm = na.rm)
   if (length(select) > 1){
     for (i in select[-1]){
-      if (is.null(na.rm)) {
-        yi <- data.frame(tapply(data[, i], data[, myfactor],...))
-      } else {
-        yi <- data.frame(tapply(data[, i], data[, myfactor],..., na.rm = na.rm))
-      }
-      names(yi) <- i
-      yi[, myfactor] <- rownames(yi)
-      y <- merge(y, yi, by = myfactor)
-
+      yi <- tapply2(data, i, myfactor, ..., na.rm = na.rm)
+      y <- merge(y, yi, by = myfactor[1])
     }
   }
   return(y)
 }
 
+
+
+#' a friendly version of tapply for a column in a dataframe
+#'
+#' @param data dataframe
+#' @param select character, column names to calc
+#' @param myfactor a colname as factor
+#' @param ... function to apply to data
+#' @param na.rm logical
+#'
+#' @return a dataframe
+#' @export
+tapply2 <- function(data, select = names(data)[1], myfactor, ..., na.rm = c(TRUE, FALSE, NULL)[1])
+{
+  if (is.null(na.rm)) {
+    y <- data.frame(tapply(data[, select], data[, myfactor],...))
+  } else {
+    y <- data.frame(tapply(data[, select], data[, myfactor],..., na.rm = na.rm))
+  }
+  if(length(myfactor) == 1) names(y) <- paste0(select) else  names(y) <- paste0(select, '_', names(y))
+  y[, myfactor[1]] <- rownames(y)
+  y <- y[, c(ncol(y), 1:(ncol(y)-1))]
+  return(y)
+}
 
 #' a friendly version of tapply
 #'
