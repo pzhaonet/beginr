@@ -2,6 +2,7 @@
 *.Rproj
 .Rbuildignore
 todo.md
+man/
 
 # Windows image file caches
 Thumbs.db
