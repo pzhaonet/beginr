@@ -4,8 +4,9 @@
 \alias{plotpairs2}
 \title{plot pair-wise correlations  with p value. in: a dataframe. out: a figure.}
 \usage{
-plotpairs2(data, lower.panel = panel.smooth, upper.panel = panel.cor, 
-    diag.panel = panel.diag, lwd = 2, col = "grey", labels = "", cex.labels = 4)
+plotpairs2(data, lower.panel = panel.smooth, upper.panel = panel.cor,
+  diag.panel = panel.diag, lwd = 2, col = "grey", labels = "",
+  cex.labels = 4)
 }
 \arguments{
 \item{data}{a dataframe}

@@ -4,8 +4,8 @@
 \alias{errorbar}
 \title{add error bars to a scatterplot.}
 \usage{
-errorbar(x, y, xupper = NULL, xlower = NULL, yupper = NULL, ylower = NULL, 
-    col = "black", lty = 1)
+errorbar(x, y, xupper = NULL, xlower = NULL, yupper = NULL,
+  ylower = NULL, col = "black", lty = 1)
 }
 \arguments{
 \item{x}{numeric}
@@ -33,7 +33,7 @@ add error bars to a scatterplot.
 \examples{
 x <- seq(0, 2 * pi, length.out = 100)
 y <- sin(x)
-plot(x, y, type = "l")
+plot(x, y, type = 'l')
 errorbar(x, y, yupper = 0.1, ylower = 0.1)
 
 }

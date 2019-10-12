@@ -2,22 +2,28 @@
 % Please edit documentation in R/beginr.R
 \name{bib}
 \alias{bib}
-\title{Create a bib file for R packages, including the citations of user-defined packages.}
+\title{Create the bibtex entry}
 \usage{
-bib(pkg = c("base"), bibfile = "")
+bib(pkgs = "base", bibfile = "")
 }
 \arguments{
-\item{pkg}{character. Packages}
+\item{pkgs}{character vector of package names to cite}
 
-\item{bibfile}{character. File path and name to save the bib entries.  If "" (the default), it prints to the standard output connection, the console unless redirected by sink.}
+\item{bibfile}{character string, file path to save the bib entries.  If ""
+(the default), it prints to the standard output connection, or save the bibtex
+entry to \code{bibfile}.}
 }
 \value{
-bib entries
+None (invisible NULL)
 }
 \description{
-Create a bib file for R packages, including the citations of user-defined packages.
+Output the bibtex entry of installed packages. If \code{bibfile} is not "",
+bibentry will be saved to bibfile.
 }
 \examples{
 bib()
-bib(pkg = c("mindr", "bookdownplus", "pinyin"))
+
+\dontrun{
+bib(pkg = c('mindr', 'bookdownplus', 'pinyin'))
+}
 }

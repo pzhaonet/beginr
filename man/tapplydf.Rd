@@ -4,7 +4,8 @@
 \alias{tapplydf}
 \title{a friendly version of tapply for dataframes}
 \usage{
-tapplydf(data, select = names(data), myfactor, ..., na.rm = c(TRUE, FALSE, NULL)[1])
+tapplydf(data, select = names(data), myfactor, ..., na.rm = c(TRUE,
+  FALSE, NULL)[1])
 }
 \arguments{
 \item{data}{dataframe}
