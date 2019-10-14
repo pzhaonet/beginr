@@ -4,8 +4,8 @@
 \alias{readdir}
 \title{Read multiple tables into a list.}
 \usage{
-readdir(mydir = getwd(), sep = c(","), output = c("list", "data.frame"), header = TRUE, 
-    skip = 0)
+readdir(mydir = getwd(), sep = c(","), output = c("list",
+  "data.frame"), header = TRUE, skip = 0)
 }
 \arguments{
 \item{mydir}{the folder path}

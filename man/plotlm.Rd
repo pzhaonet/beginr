@@ -4,9 +4,11 @@
 \alias{plotlm}
 \title{plot a linear regression figure and return a list of parameters.}
 \usage{
-plotlm(x, y, xlim = range(as.numeric(x), na.rm = TRUE), ylim = range(as.numeric(y), 
-    na.rm = TRUE), plot.title = "linear regression", xlab = "x", ylab = "y", 
-    refline = FALSE, slope = 1, intercept = 0, showr2 = TRUE, showleg = TRUE)
+plotlm(x, y, xlim = range(as.numeric(x), na.rm = TRUE),
+  ylim = range(as.numeric(y), na.rm = TRUE),
+  plot.title = "linear regression", xlab = "x", ylab = "y",
+  refline = FALSE, slope = 1, intercept = 0, showr2 = TRUE,
+  showleg = TRUE)
 }
 \arguments{
 \item{x}{numeric}

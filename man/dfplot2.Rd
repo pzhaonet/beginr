@@ -4,8 +4,9 @@
 \alias{dfplot2}
 \title{Plot a dataframe, one y against multiple xs}
 \usage{
-dfplot2(x, y, xlab = "x", ylab = "y", xlim = NULL, ylim = NULL, mycol = NULL, 
-    mylty = NULL, xerror = NULL, yerror = NULL, mycolerrorbar = NULL, mylegend = NULL)
+dfplot2(x, y, xlab = "x", ylab = "y", xlim = NULL, ylim = NULL,
+  mycol = NULL, mylty = NULL, xerror = NULL, yerror = NULL,
+  mycolerrorbar = NULL, mylegend = NULL)
 }
 \arguments{
 \item{x}{a vector  or a dataframe with the same length as x}
@@ -41,7 +42,8 @@ Plot a dataframe, one y against multiple xs
 \examples{
 x <- seq(0, 2 * pi, length.out = 100)
 y <- data.frame(sin(x), cos(x))
-yerror <- data.frame(abs(rnorm(100, sd = 0.3)), abs(rnorm(100, sd = 0.1)))
+yerror <- data.frame(abs(rnorm(100, sd = 0.3)),
+                     abs(rnorm(100, sd = 0.1)))
 dfplot2(y, x, xerror = yerror)
 
 }

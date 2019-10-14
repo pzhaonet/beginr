@@ -1,34 +1,55 @@
-#' Create a bib file for R packages, including the citations of user-defined packages.
+#' Create the bibtex entry
 #'
-#' @param pkg character. Packages
-#' @param bibfile character. File path and name to save the bib entries.  If "" (the default), it prints to the standard output connection, the console unless redirected by sink.
-#'
-#' @return bib entries
+#' Output the bibtex entry of installed packages. If \code{bibfile} is not "", 
+#' bibentry will be saved to bibfile.
+#' 
+#' @param pkgs character vector of package names to cite
+#' @param bibfile character string, file path to save the bib entries.  If "" 
+#' (the default), it prints to the standard output connection, or save the bibtex
+#' entry to \code{bibfile}.
+#' @return None (invisible NULL)
 #' @export
 #' @examples
 #' bib()
+#' 
+#' \dontrun{
 #' bib(pkg = c('mindr', 'bookdownplus', 'pinyin'))
+#' }
 #' @importFrom grDevices col2rgb colors rainbow rgb rgb2hsv gray hcl
 #' @importFrom graphics abline arrows axis box hist legend lines mtext pairs panel.smooth par plot points polygon rect rug strwidth text barplot curve
 #' @importFrom stats IQR cor cor.test density dnorm fivenum lm rnorm sd
 #' @importFrom utils citation read.table toBibtex write.csv unzip
-bib <- function(pkg = c('base'), bibfile = ''){
-  pkg <- unique(pkg[order(pkg)])
-  for (i in pkg){
-    if (inherits(try(citation(i)), 'try-error', TRUE)) {
-      message(paste('Warning! The bib entry of', i, 'is not included because of some unexpected problems. Please check whether', i, 'has been installed. If not, please install it first. Otherwise, it might be caused by other problems.'))
-    } else {
-      cti <- toBibtex(citation(i))
-      entryloc <- grep(pattern = '^@', cti)
-      cti[entryloc] <- gsub(',', paste('R-',i, ',', sep =''), cti[entryloc])
-      symbol6loc <- grep('&', cti)
-      for (j in symbol6loc) {
-        cti[j] <- gsub(pattern = ' &', replacement = ' \\\\&', cti[j])
-      }
-      if (length(entryloc) > 1)  cti[entryloc] <- paste(substr(cti[entryloc], 1, nchar(cti[entryloc])-1), 1:length(entryloc), ',', sep ='')
-      cat(cti, sep = '\n', file = bibfile, append = TRUE)
+bib <- function(pkgs = 'base', bibfile = ''){
+  stopifnot(is.character(pkgs), !anyNA(pkgs))
+  
+  pkgs <- unique(pkgs)
+  uninstalled_pkgs <- pkgs[!pkgs %in% installed.packages()]
+  if (length(uninstalled_pkgs))
+    stop(paste(uninstalled_pkgs, collapse = ", "), 
+      " has/have not been installed", call. = FALSE
+    )
+  
+  for (pkg in pkgs) {
+    cti <- toBibtex(citation(pkg))
+    entryloc <- grep(pattern = '^@', cti)
+    cti[entryloc] <- gsub(',', paste('R-', pkg, ',', sep = ''), cti[entryloc])
+      
+    symbol6loc <- grep('&', cti)
+    for (i in symbol6loc) {
+      cti[i] <- gsub(pattern = ' &', replacement = ' \\\\&', cti[i])
     }
+      
+    if (length(entryloc) > 1)  
+      cti[entryloc] <- paste(
+        substr(cti[entryloc], 1, nchar(cti[entryloc]) - 1), 
+        1:length(entryloc), ',', sep = ''
+      )
+    
+    cat(cti, sep = '\n', file = bibfile, append = TRUE)
   }
+  
+  invisible(NULL)
+  
 }
 
 #' Plot a dataframe, multiple ys against one x

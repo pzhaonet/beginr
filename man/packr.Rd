@@ -4,7 +4,8 @@
 \alias{packr}
 \title{Create a package}
 \usage{
-packr(pkg_name, packages, author = NULL, email = NULL, auto = FALSE, overwrite = FALSE)
+packr(pkg_name, packages, author = NULL, email = NULL, auto = FALSE,
+  overwrite = FALSE)
 }
 \arguments{
 \item{pkg_name}{the name of the package which is to be created}
@@ -27,7 +28,6 @@ Create a package
 }
 \examples{
 \dontrun{
-packr("zhaor", c("mindr", "pinyin", "beginr", "bookdownplus", "steemr", "rmd"), 
-    "Your Name")
+packr('zhaor', c('mindr','pinyin', 'beginr', 'bookdownplus', 'steemr', 'rmd'), 'Your Name')
 }
 }

@@ -4,8 +4,9 @@
 \alias{plotpkg}
 \title{plot daily download counts of packages}
 \usage{
-plotpkg(mypkg = "bookdownplus", from = Sys.Date() - 30, to = Sys.Date(), type = "o", 
-    pch = 19, col = "blue", cex = 1, textcex = 5)
+plotpkg(mypkg = "bookdownplus", from = Sys.Date() - 30,
+  to = Sys.Date(), type = "o", pch = 19, col = "blue", cex = 1,
+  textcex = 5)
 }
 \arguments{
 \item{mypkg}{character vector of package names.}
@@ -31,5 +32,5 @@ a figure
 plot daily download counts of packages
 }
 \examples{
-plotpkg(mypkg = "rmarkdown")
+plotpkg(mypkg = 'rmarkdown')
 }

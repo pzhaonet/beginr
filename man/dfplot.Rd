@@ -4,10 +4,11 @@
 \alias{dfplot}
 \title{Plot a dataframe, multiple ys against one x}
 \usage{
-dfplot(x, y, add = FALSE, xlab = "", ylab = "", myaxes = FALSE, xlim = NULL, 
-    ylim = NULL, mycol = NULL, mytype = "l", mypch = 20, mycex = 1, mylty = NULL, 
-    lwd = 1, xerror = NULL, yerror = NULL, mycolerrorbar = NULL, mylegend = NULL, 
-    mylegendcol = mycol, mylegendcex = 1, legendpos = "top")
+dfplot(x, y, add = FALSE, xlab = "", ylab = "", myaxes = FALSE,
+  xlim = NULL, ylim = NULL, mycol = NULL, mytype = "l",
+  mypch = 20, mycex = 1, mylty = NULL, lwd = 1, xerror = NULL,
+  yerror = NULL, mycolerrorbar = NULL, mylegend = NULL,
+  mylegendcol = mycol, mylegendcex = 1, legendpos = "top")
 }
 \arguments{
 \item{x}{a vector}
@@ -61,7 +62,8 @@ Plot a dataframe, multiple ys against one x
 \examples{
 x <- seq(0, 2 * pi, length.out = 100)
 y <- data.frame(sin(x), cos(x))
-yerror <- data.frame(abs(rnorm(100, sd = 0.3)), abs(rnorm(100, sd = 0.1)))
+yerror <- data.frame(abs(rnorm(100, sd = 0.3)),
+                     abs(rnorm(100, sd = 0.1)))
 dfplot(x, y, yerror = yerror)
 
 }
