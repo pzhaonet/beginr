@@ -216,18 +216,19 @@ dfplot2 <- function(x, y,
   box()
 }
 
-#' add error bars to a scatterplot.
+#' Display errorbars
+#' 
+#' Create a errorbar, or add errorbars to an existing plot.
 #'
-#' @param x numeric
-#' @param y numeric
-#' @param xupper numeric
-#' @param xlower numeric
-#' @param yupper numeric
-#' @param ylower numeric
-#' @param col colors
-#' @param lty numeric
+#' @param x,y numeric vectors, the coordinates of points at which the error bar 
+#' are to be plotted.
+#' @param xupper,xlower numeric vectors, error value of X axis, the X axis of 
+#' error bars are from \eqn{x - xlower} to \eqn{x + xupper}.
+#' @param yupper,ylower numeric vectors, error value of Y axis, the Y axis of 
+#' error bars are from \eqn{y - ylower} to \eqn{y + yupper}.
+#' @param col,lty graphical parameters, color and line type for the lines, more 
+#' details see \code{\link[graphics]{par}}.
 #'
-#' @return errorbars in a plot
 #' @export
 #' @examples
 #' x <- seq(0, 2 * pi, length.out = 100)
@@ -244,10 +245,10 @@ errorbar <- function(x, y, xupper = NULL, xlower = NULL, yupper = NULL, ylower =
     arrows(x, y, x, y - ylower, angle = 90, length = 0.03, col = col, lty = lty)
   }
   if (!is.null(xupper)){
-    arrows(x, y, x+xupper, y, angle = 90, length = 0.03, col = col, lty = lty)
+    arrows(x, y, x + xupper, y, angle = 90, length = 0.03, col = col, lty = lty)
   }
   if (!is.null(xlower)){
-    arrows(x, y, x-xlower, y, angle = 90, length = 0.03, col = col, lty = lty)
+    arrows(x, y, x - xlower, y, angle = 90, length = 0.03, col = col, lty = lty)
   }
 }
 
