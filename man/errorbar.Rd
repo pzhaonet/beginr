@@ -2,33 +2,26 @@
 % Please edit documentation in R/beginr.R
 \name{errorbar}
 \alias{errorbar}
-\title{add error bars to a scatterplot.}
+\title{Display errorbars}
 \usage{
 errorbar(x, y, xupper = NULL, xlower = NULL, yupper = NULL,
   ylower = NULL, col = "black", lty = 1)
 }
 \arguments{
-\item{x}{numeric}
+\item{x, y}{numeric vectors, the coordinates of points at which the error bar
+are to be plotted.}
 
-\item{y}{numeric}
+\item{xupper, xlower}{numeric vectors, error value of X axis, the X axis of
+error bars are from \eqn{x - xlower} to \eqn{x + xupper}.}
 
-\item{xupper}{numeric}
+\item{yupper, ylower}{numeric vectors, error value of Y axis, the Y axis of
+error bars are from \eqn{y - ylower} to \eqn{y + yupper}.}
 
-\item{xlower}{numeric}
-
-\item{yupper}{numeric}
-
-\item{ylower}{numeric}
-
-\item{col}{colors}
-
-\item{lty}{numeric}
-}
-\value{
-errorbars in a plot
+\item{col, lty}{graphical parameters, color and line type for the lines, more
+details see \code{\link[graphics]{par}}.}
 }
 \description{
-add error bars to a scatterplot.
+Create a errorbar, or add errorbars to an existing plot.
 }
 \examples{
 x <- seq(0, 2 * pi, length.out = 100)
