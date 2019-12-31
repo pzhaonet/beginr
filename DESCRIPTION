@@ -1,8 +1,10 @@
 Package: beginr
-Version: 0.1.7
-Date: 2019-05-01
+Version: 0.1.8
+Date: 2019-12-31
 Title: Functions for R Beginners
-Author: Peng Zhao
+Authors@R: c(
+    person("Peng", "Zhao", role = c("aut", "cre"), email = "pzhao@pzhao.net"),
+    person("Yang", "Cao", role = "ctb"))
 Maintainer: Peng Zhao <pzhao@pzhao.net>
 Depends: R (>= 3.1.0)
 Imports: 
