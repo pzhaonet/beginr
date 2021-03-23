@@ -1,6 +1,6 @@
 Package: beginr
-Version: 0.1.8
-Date: 2019-12-31
+Version: 0.1.9
+Date: 2021-03-20
 Title: Functions for R Beginners
 Authors@R: c(
     person("Peng", "Zhao", role = c("aut", "cre"), email = "pzhao@pzhao.net"),
@@ -15,5 +15,5 @@ License: MIT + file LICENSE
 URL: https://github.com/pzhaonet/beginr
 BugReports: https://github.com/pzhaonet/beginr/issues
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 NeedsCompilation: no
