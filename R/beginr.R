@@ -1,17 +1,17 @@
 #' Create the bibtex entry
 #'
-#' Output the bibtex entry of installed packages. If \code{bibfile} is not "", 
+#' Output the bibtex entry of installed packages. If \code{bibfile} is not "",
 #' bibentry will be saved to bibfile.
-#' 
+#'
 #' @param pkgs character vector of package names to cite
-#' @param bibfile character string, file path to save the bib entries.  If "" 
+#' @param bibfile character string, file path to save the bib entries.  If ""
 #' (the default), it prints to the standard output connection, or save the bibtex
 #' entry to \code{bibfile}.
 #' @return None (invisible NULL)
 #' @export
 #' @examples
 #' bib()
-#' 
+#'
 #' \dontrun{
 #' bib(pkg = c('mindr', 'bookdownplus', 'pinyin'))
 #' }
@@ -21,35 +21,35 @@
 #' @importFrom utils citation read.table toBibtex write.csv unzip
 bib <- function(pkgs = 'base', bibfile = ''){
   stopifnot(is.character(pkgs), !anyNA(pkgs))
-  
+
   pkgs <- unique(pkgs)
   uninstalled_pkgs <- pkgs[!pkgs %in% installed.packages()]
   if (length(uninstalled_pkgs))
-    stop(paste(uninstalled_pkgs, collapse = ", "), 
+    stop(paste(uninstalled_pkgs, collapse = ", "),
       " has/have not been installed", call. = FALSE
     )
-  
+
   for (pkg in pkgs) {
     cti <- toBibtex(citation(pkg))
     entryloc <- grep(pattern = '^@', cti)
     cti[entryloc] <- gsub(',', paste('R-', pkg, ',', sep = ''), cti[entryloc])
-      
+
     symbol6loc <- grep('&', cti)
     for (i in symbol6loc) {
       cti[i] <- gsub(pattern = ' &', replacement = ' \\\\&', cti[i])
     }
-      
-    if (length(entryloc) > 1)  
+
+    if (length(entryloc) > 1)
       cti[entryloc] <- paste(
-        substr(cti[entryloc], 1, nchar(cti[entryloc]) - 1), 
+        substr(cti[entryloc], 1, nchar(cti[entryloc]) - 1),
         1:length(entryloc), ',', sep = ''
       )
-    
+
     cat(cti, sep = '\n', file = bibfile, append = TRUE)
   }
-  
+
   invisible(NULL)
-  
+
 }
 
 #' Plot a dataframe, multiple ys against one x
@@ -217,16 +217,16 @@ dfplot2 <- function(x, y,
 }
 
 #' Display errorbars
-#' 
+#'
 #' Create a errorbar, or add errorbars to an existing plot.
 #'
-#' @param x,y numeric vectors, the coordinates of points at which the error bar 
+#' @param x,y numeric vectors, the coordinates of points at which the error bar
 #' are to be plotted.
-#' @param xupper,xlower numeric vectors, error value of X axis, the X axis of 
+#' @param xupper,xlower numeric vectors, error value of X axis, the X axis of
 #' error bars are from \eqn{x - xlower} to \eqn{x + xupper}.
-#' @param yupper,ylower numeric vectors, error value of Y axis, the Y axis of 
+#' @param yupper,ylower numeric vectors, error value of Y axis, the Y axis of
 #' error bars are from \eqn{y - ylower} to \eqn{y + yupper}.
-#' @param col,lty graphical parameters, color and line type for the lines, more 
+#' @param col,lty graphical parameters, color and line type for the lines, more
 #' details see \code{\link[graphics]{par}}.
 #'
 #' @export
@@ -831,12 +831,14 @@ plotlty <- function(mylwd = 1){
 #' @examples
 #' plotpch()
 #'
-plotpch <- function(mycex = 5){
-  mypch <- 0:25
-  x <- rep(1:13, 2)
-  y <- rep(c(1, 1.8), each = 13)
-  plot(x, y, pch = mypch, ylim = c(0.5, 2.5), cex = mycex, xlab = '', ylab = '', axes = FALSE)
-  text(x, y, labels = mypch, pos = 1, offset = 2, cex = 2)
+plotpch <- function(myfont = 1, mycex = 1){
+  n_row <- 6
+  n_col <- 50
+  mypch <- 0:(n_row * n_col - 1)
+  x <- rep(1:n_col, n_row)
+  y <- rep(seq(1, 2, length.out = n_row), each = n_col)
+  plot(x, y, pch = mypch, ylim = c(0.5, 2.5), cex = mycex, xlab = '', ylab = '', axes = FALSE, font = myfont)
+  text(x, y, labels = mypch, pos = 1, offset = 1, cex = mycex)
 }
 
 #' A reminder for type
