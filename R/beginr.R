@@ -464,8 +464,7 @@ mf_skewness <- function(x) {
 #' @param return_df logic
 #' @param show_n logical
 #' @param show_skewness logical
-#' @param show_density logcial
-#' @param x a vector for plotting the curve
+#' @param show_density logical
 #' @return a hist plot
 #' @export
 #' @examples
@@ -485,8 +484,7 @@ plothist <-
            show_n = TRUE,
            show_skewness = TRUE,
            show_density = FALSE,
-           show_normline = FALSE,
-           x) {
+           show_normline = FALSE) {
     # 设置默认的 y 轴范围
     if (is.null(myylim))
       myylim <-
@@ -769,7 +767,7 @@ plotlm <- function(x,
     if (showleg)
       legend(
         'bottomright',
-        legend = c('data', 'linear', '1:1'),
+        legend = c('data', 'linear', if(refline) '1:1'),
         col = c('darkgrey', 'black', 'blue'),
         pch = c(19,-1,-1),
         lty = c(0, 1, 2),
@@ -1526,7 +1524,7 @@ plotcolorbar <- function() {
 #' @examples
 #' plotlty()
 #'
-plotlty <- function(mylwd = 1) {
+plotlty <- function(mylwd = 2) {
   ltynr <- 6
   # 定义线型数量
   # Define the number of line types
@@ -1567,15 +1565,14 @@ plotlty <- function(mylwd = 1) {
 #' @examples
 #' plotpch()
 #'
-plotpch <- function(myfont = 1, mycex = 1) {
-  n_row <- 6
-  n_col <- 50
+plotpch <- function(mycex = 2) {
+  n_row <- 2
+  n_col <- 13
   mypch <- 0:(n_row * n_col - 1)
   x <- rep(1:n_col, n_row)
   y <- rep(seq(1, 2, length.out = n_row), each = n_col)
   # 创建数据点的横坐标和纵坐标
   # Create the x and y coordinates for the data points
-
   plot(
     x,
     y,
@@ -1584,8 +1581,7 @@ plotpch <- function(myfont = 1, mycex = 1) {
     cex = mycex,
     xlab = '',
     ylab = '',
-    axes = FALSE,
-    font = myfont
+    axes = FALSE
   )
   # 绘制散点图
   # Draw a scatter plot

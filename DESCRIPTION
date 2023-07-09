@@ -1,11 +1,11 @@
 Package: beginr
-Version: 0.1.8
-Date: 2019-12-31
+Version: 1.0.0
+Date: 2023-06-28
 Title: Functions for R Beginners
 Authors@R: c(
-    person("Peng", "Zhao", role = c("aut", "cre"), email = "pzhao@pzhao.net"),
+    person("Peng", "Zhao", role = c("aut", "cre"), email = "pengzhao20@outlook.com"),
     person("Yang", "Cao", role = "ctb"))
-Maintainer: Peng Zhao <pzhao@pzhao.net>
+Maintainer: Peng Zhao <pengzhao20@outlook.com>
 Depends: R (>= 3.1.0)
 Imports: 
   cranlogs (>= 2.1.0),
@@ -15,5 +15,6 @@ License: MIT + file LICENSE
 URL: https://github.com/pzhaonet/beginr
 BugReports: https://github.com/pzhaonet/beginr/issues
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.2.3
 NeedsCompilation: no
+Encoding: UTF-8
